@@ -1,0 +1,839 @@
+export type Kind = "points" | "benefits" | "fees" | "terms" | "product";
+export type Severity = "action" | "watch" | "fyi";
+export type Scope = "held" | "bank" | "other";
+export type SourceKind = "bank" | "press";
+
+export type Change = { label: string; before: string; after: string };
+
+export type Bank = {
+  id: string;
+  name: string;
+  short: string;
+  hubLabel: string;
+  hubUrl: string;
+};
+
+export type Card = {
+  id: string;
+  bankId: string;
+  name: string;
+  network: string;
+  note: string;
+};
+
+export type Notice = {
+  id: string;
+  bankId: string;
+  title: string;
+  published: string | null;
+  effective: string | null;
+  kind: Kind;
+  severity: Severity;
+  scope: Scope;
+  cardIds: string[];
+  summary: string;
+  changes: Change[];
+  sourceLabel: string;
+  sourceUrl: string;
+  sourceKind: SourceKind;
+};
+
+export const COMPILED_ON = "2026-10-05";
+
+export const KIND_LABEL: Record<Kind, string> = {
+  points: "Points",
+  benefits: "Benefits",
+  fees: "Fees",
+  terms: "Terms",
+  product: "Product",
+};
+
+export const banks: Bank[] = [
+  {
+    id: "maybank",
+    name: "Maybank & Maybank Islamic",
+    short: "Maybank",
+    hubLabel: "Maybank announcements",
+    hubUrl: "https://www.maybank2u.com.my/maybank2u/malaysia/en/personal/announcements.page",
+  },
+  {
+    id: "cimb",
+    name: "CIMB Bank",
+    short: "CIMB",
+    hubLabel: "CIMB important notices",
+    hubUrl: "https://www.cimb.com.my/en/personal/important-notices.html",
+  },
+  {
+    id: "hlb",
+    name: "Hong Leong Bank",
+    short: "Hong Leong",
+    hubLabel: "Hong Leong news & updates",
+    hubUrl: "https://www.hlb.com.my/en/personal-banking/news-updates.html",
+  },
+  {
+    id: "ocbc",
+    name: "OCBC Bank Malaysia",
+    short: "OCBC",
+    hubLabel: "OCBC cards",
+    hubUrl: "https://www.ocbc.com.my/personal-banking/cards",
+  },
+  {
+    id: "ambank",
+    name: "AmBank & AmBank Islamic",
+    short: "AmBank",
+    hubLabel: "AmBank announcements",
+    hubUrl: "https://www.ambank.com.my/announcements",
+  },
+  {
+    id: "hsbc",
+    name: "HSBC Amanah",
+    short: "HSBC Amanah",
+    hubLabel: "HSBC Amanah important notices",
+    hubUrl: "https://www.hsbcamanah.com.my/help/important-information/",
+  },
+  {
+    id: "alliance",
+    name: "Alliance Bank",
+    short: "Alliance",
+    hubLabel: "Alliance media centre",
+    hubUrl: "https://www.alliancebank.com.my/about-us/Media-Centre",
+  },
+  {
+    id: "affin",
+    name: "Affin Bank",
+    short: "Affin",
+    hubLabel: "Affin announcements",
+    hubUrl: "https://www.affinalways.com/en/announcements",
+  },
+  {
+    id: "aeon",
+    name: "AEON Credit",
+    short: "AEON",
+    hubLabel: "AEON Biker Infinite page",
+    hubUrl: "https://myaeoncredit.com.my/aeon-cards/aeon-biker-infinite-visa-card/",
+  },
+  {
+    id: "public",
+    name: "Public Bank & Public Islamic",
+    short: "Public Bank",
+    hubLabel: "Public Bank announcements",
+    hubUrl: "https://www.pbebank.com/en/personal-banking/announcements/",
+  },
+  {
+    id: "rhb",
+    name: "RHB Bank & RHB Islamic",
+    short: "RHB",
+    hubLabel: "RHB highlights",
+    hubUrl: "https://www.rhbgroup.com/others/highlights/index.html",
+  },
+  {
+    id: "uob",
+    name: "UOB Malaysia",
+    short: "UOB",
+    hubLabel: "UOB announcements",
+    hubUrl: "https://www.uob.com.my/personal/announcement.page",
+  },
+  {
+    id: "sc",
+    name: "Standard Chartered",
+    short: "Standard Chartered",
+    hubLabel: "Standard Chartered important information",
+    hubUrl: "https://www.sc.com/my/important-information/",
+  },
+  {
+    id: "hsbc-my",
+    name: "HSBC Bank Malaysia",
+    short: "HSBC Bank",
+    hubLabel: "HSBC Bank important notices",
+    hubUrl: "https://www.hsbc.com.my/help/important-information/",
+  },
+  {
+    id: "bankislam",
+    name: "Bank Islam",
+    short: "Bank Islam",
+    hubLabel: "Bank Islam announcements",
+    hubUrl: "https://www.bankislam.com/announcement/",
+  },
+  {
+    id: "muamalat",
+    name: "Bank Muamalat",
+    short: "Muamalat",
+    hubLabel: "Bank Muamalat announcements",
+    hubUrl: "https://www.muamalat.com.my/publications/announcements/",
+  },
+  {
+    id: "bankrakyat",
+    name: "Bank Rakyat",
+    short: "Bank Rakyat",
+    hubLabel: "Bank Rakyat news",
+    hubUrl: "https://www.bankrakyat.com.my/",
+  },
+  {
+    id: "bsn",
+    name: "BSN",
+    short: "BSN",
+    hubLabel: "BSN card announcements",
+    hubUrl: "https://www.bsn.com.my/IslamicBanking/Cards-i/credit-card-announcement",
+  },
+  {
+    id: "icbc",
+    name: "ICBC Malaysia",
+    short: "ICBC",
+    hubLabel: "ICBC Malaysia notices",
+    hubUrl: "https://malaysia.icbc.com.cn/",
+  },
+];
+
+export const cards: Card[] = [
+  {
+    id: "mb-2-gold",
+    bankId: "maybank",
+    name: "Maybank 2 Gold",
+    network: "Visa / Mastercard",
+    note: "Cashback and TreatsPoints. Earn rates were not rewritten in the January 2026 terms update; refunds and reversals were.",
+  },
+  {
+    id: "mb-ikhwan-amex",
+    bankId: "maybank",
+    name: "Maybank Islamic Ikhwan American Express",
+    network: "American Express",
+    note: "The Ikhwan Gold page publishes an air-miles conversion that names Maybank American Express, Mastercard, and Visa Gold & Platinum.",
+  },
+  {
+    id: "cimb-petronas",
+    bankId: "cimb",
+    name: "CIMB PETRONAS Visa Infinite",
+    network: "Visa Infinite",
+    note: "Sits on CIMB Bonus Points and the bank-wide cardholder terms, not the Preferred Visa Infinite campaign.",
+  },
+  {
+    id: "cimb-e",
+    bankId: "cimb",
+    name: "CIMB e Credit Card",
+    network: "Visa",
+    note: "Principal annual fee is RM80 from 1 January 2026. 2026 is a full waiver with no spend; 2027 needs RM6,000.",
+  },
+  {
+    id: "cimb-travel-plat",
+    bankId: "cimb",
+    name: "CIMB Travel Platinum",
+    network: "Travel series",
+    note: "Covered by the bank-wide cardholder terms and the Member Rewards airline list. No separate points-rate rewrite was in this library.",
+  },
+  {
+    id: "cimb-travel-world",
+    bankId: "cimb",
+    name: "CIMB Travel World",
+    network: "Mastercard",
+    note: "The 1 October 2026 Travel Card terms restate the principal annual fee at RM554.72, with later-year waiver tiers at RM120,000 (100%) and RM60,000 (50%). That document is a restatement, not a marked before/after.",
+  },
+  {
+    id: "hlb-vi",
+    bankId: "hlb",
+    name: "Hong Leong Visa Infinite",
+    network: "Visa Infinite",
+    note: "Enrich earn rates were rebuilt by category on 22 May 2025. Annual fee stayed free for life.",
+  },
+  {
+    id: "ocbc-ti-blue",
+    bankId: "ocbc",
+    name: "OCBC Titanium Mastercard Blue",
+    network: "Mastercard",
+    note: "Rewards moved off the old cashback bands onto OCBC$ on 20 October 2024. The product page still waives the first-year RM75 fee through 31 December 2026; later years need RM20,000 retail spend.",
+  },
+  {
+    id: "amb-vi",
+    bankId: "ambank",
+    name: "AmBank Visa Infinite",
+    network: "Visa Infinite",
+    note: "Enrich conversion moved from 10,000 to 12,000 AmBonus Points per 1,000 Enrich Points on 1 April 2026. Conventional cash advance became 1.3% plus SST on 1 July 2026.",
+  },
+  {
+    id: "amb-vi-i",
+    bankId: "ambank",
+    name: "AmBank Islamic Visa Infinite",
+    network: "Visa Infinite",
+    note: "Same Enrich conversion as the conventional Visa Infinite. Islamic cash advance became a flat RM16 plus SST on 1 July 2026, up from RM12 plus SST.",
+  },
+  {
+    id: "hsbc-mpower",
+    bankId: "hsbc",
+    name: "HSBC Amanah MPower Platinum",
+    network: "Credit Card-i",
+    note: "Shariah contract moved to Tawarruq on 9 December 2025. Annual-fee waiver is now RM6,000 a year, not the old RM2,000 plus a monthly spend. Cashback categories were rewritten from 1 October 2026.",
+  },
+  {
+    id: "ab-virtual",
+    bankId: "alliance",
+    name: "Alliance Bank Virtual Visa",
+    network: "Visa",
+    note: "If this is the Visa Platinum Virtual, Alliance left its earn rates alone on 1 August 2025. Bank-wide, TBP now expires after three years (pre-Dec 2025 points expire 30 November 2028). The cardholder agreement was revised from 1 December 2025.",
+  },
+  {
+    id: "affin-duo",
+    bankId: "affin",
+    name: "Affin DUO",
+    network: "Visa Cash Back & Mastercard Rewards",
+    note: "Grouped with DUO+ on the April 2025 airmiles conversion. The January 2026 generic terms use DUO Visa as the cashback rounding example.",
+  },
+  {
+    id: "affin-duo-plus",
+    bankId: "affin",
+    name: "Affin DUO+",
+    network: "Visa & Mastercard",
+    note: "DUO+ Visa cashback is for contactless retail of RM250 and below. Splitting a larger bill into smaller taps can be reversed.",
+  },
+  {
+    id: "aeon-biker",
+    bankId: "aeon",
+    name: "AEON Biker Infinite Visa",
+    network: "Visa Infinite",
+    note: "Launched 17 June 2025. The product page still lists 8% cashback on motorcycle parts, merchandise and motor services, 8% on overseas spend, 2% on petrol and insurance, and 8 Plaza Premium visits. No later revision was on the public pages checked for this library.",
+  },
+];
+
+export const notices: Notice[] = [
+  {
+    id: "cimb-flying-blue",
+    bankId: "cimb",
+    title: "Flying Blue leaves CIMB Member Rewards on 11 October 2026",
+    published: null,
+    effective: "2026-10-11",
+    kind: "points",
+    severity: "action",
+    scope: "bank",
+    cardIds: ["cimb-petronas", "cimb-e", "cimb-travel-plat", "cimb-travel-world"],
+    summary:
+      "On the Bonus Points redemption page, CIMB says Air France-KLM Flying Blue stops as an airmiles partner on 11 October 2026. Redemptions need to be in by 10 October 2026. Bonus Points stay usable with the other airline partners.",
+    changes: [
+      {
+        label: "Flying Blue",
+        before: "Airline partner under Member Rewards",
+        after: "Unavailable from 11 October 2026",
+      },
+      {
+        label: "Last day to redeem",
+        before: "Open",
+        after: "10 October 2026",
+      },
+    ],
+    sourceLabel: "CIMB Bonus Points redemption",
+    sourceUrl: "https://www.cimb.com.my/en/personal/day-to-day-banking/cards/credit-card/bonus-points-redemption.html",
+    sourceKind: "bank",
+  },
+  {
+    id: "cimb-tnc-oct",
+    bankId: "cimb",
+    title: "Cardholder terms amended from 16 October 2026",
+    published: "2026-09-25",
+    effective: "2026-10-16",
+    kind: "terms",
+    severity: "action",
+    scope: "bank",
+    cardIds: ["cimb-petronas", "cimb-e", "cimb-travel-plat", "cimb-travel-world"],
+    summary:
+      "Notice dated 25 September 2026. CIMB Bank and CIMB Islamic cardholder terms change on 16 October 2026. The notice says the clause edits are in tables on that page. This desk does not restate clauses it could not read off the page — open the notice itself.",
+    changes: [],
+    sourceLabel: "CIMB important notice, 25 September 2026",
+    sourceUrl:
+      "https://www.cimb.com.my/en/personal/important-notices/2026/notice-of-amendments-to-cimb-bank-cimb-islamic-bank-cardholder-terms-and-conditions.html",
+    sourceKind: "bank",
+  },
+  {
+    id: "hsbc-mpower-tnc",
+    bankId: "hsbc",
+    title: "MPower Platinum cashback rules rewritten from 1 October 2026",
+    published: "2026-09-28",
+    effective: "2026-10-01",
+    kind: "benefits",
+    severity: "action",
+    scope: "held",
+    cardIds: ["hsbc-mpower"],
+    summary:
+      "Notice dated 28 September 2026. eWallet top-up no longer includes Samsung Pay; Samsung Pay is now a payment-authorisation channel, and petrol or groceries paid that way count as eWallet. Giant groceries now include GHC Retail. Exclusions are split into base cashback and bonus cashback. A transaction dated in one month but posted after the 7th of the next month counts in the posting month. On a card instalment, only the original purchase counts toward eligible spend — later instalments do not.",
+    changes: [
+      {
+        label: "eWallet top-up",
+        before: "Samsung Pay, GrabPay, Touch ’n Go, FavePay",
+        after: "GrabPay, Touch ’n Go, FavePay. Samsung Pay is payment authorisation only",
+      },
+      {
+        label: "Groceries",
+        before: "Giant, Lotus’s, AEON BiG, Mydin",
+        after: "Giant including GHC Retail, Lotus’s, AEON BiG, Mydin",
+      },
+      {
+        label: "Posting cut-off",
+        before: "Not stated this way",
+        after: "Posted after the 7th of the next month counts in the posting month",
+      },
+    ],
+    sourceLabel: "HSBC Amanah MPower Platinum notice, 28 September 2026",
+    sourceUrl: "https://www.hsbcamanah.com.my/content/dam/hsbc/hbms/documents/hsbc-mpower-platinum-tnc-customer-notice-sept-2026.pdf",
+    sourceKind: "bank",
+  },
+  {
+    id: "cimb-e-fee",
+    bankId: "cimb",
+    title: "CIMB e Credit Card annual fee cut to RM80",
+    published: "2025-12-08",
+    effective: "2026-01-01",
+    kind: "fees",
+    severity: "watch",
+    scope: "held",
+    cardIds: ["cimb-e"],
+    summary:
+      "From 1 January 2026 the principal annual fee is RM80, down from RM100. New and existing principal cardholders get a full waiver for 2026 with no spend. From 1 January 2027 the waiver needs RM6,000 total annual spend. Redeeming the fee with Bonus Points drops to 40,000 points for the full RM80, or 20,000 for half.",
+    changes: [
+      { label: "Principal annual fee", before: "RM100", after: "RM80" },
+      { label: "Waiver in 2026", before: "Spend-based", after: "Full waiver, no spend, through 31 December 2026" },
+      { label: "Waiver from 2027", before: "—", after: "RM6,000 total annual spend" },
+      { label: "Points for 100% of the fee", before: "50,000 Bonus Points", after: "40,000 Bonus Points" },
+      { label: "Points for 50% of the fee", before: "25,000 Bonus Points", after: "20,000 Bonus Points" },
+    ],
+    sourceLabel: "CIMB important notice, 8 December 2025",
+    sourceUrl: "https://www.cimb.com.my/en/personal/important-notices/2025/revision-e-credit-card-annual-fee.html",
+    sourceKind: "bank",
+  },
+  {
+    id: "amb-enrich",
+    bankId: "ambank",
+    title: "Visa Infinite Enrich conversion needs 12,000 AmBonus Points",
+    published: "2026-03-02",
+    effective: "2026-04-01",
+    kind: "points",
+    severity: "action",
+    scope: "held",
+    cardIds: ["amb-vi", "amb-vi-i"],
+    summary:
+      "Notice dated 2 March 2026. The old rewards catalogue closed on 31 March 2026. From 1 April 2026 both AmBank Visa Infinite and AmBank Islamic Visa Infinite need 12,000 AmBonus Points for 1,000 Enrich Points, up from 10,000. The same notice moves World Mastercard from 12,000 to 18,000 and several Platinum, Signature and Gold cards from 15,000 to 18,000.",
+    changes: [
+      {
+        label: "Visa Infinite and Islamic Visa Infinite",
+        before: "10,000 AmBonus Points = 1,000 Enrich Points",
+        after: "12,000 AmBonus Points = 1,000 Enrich Points",
+      },
+    ],
+    sourceLabel: "AmBank announcement, 2 March 2026",
+    sourceUrl:
+      "https://www.ambank.com.my/announcements/2026/ambonus-points-reward-catalogue-update-and-revision-of-enrich-point-conversion-rates",
+    sourceKind: "bank",
+  },
+  {
+    id: "amb-fees",
+    bankId: "ambank",
+    title: "Credit card fees revised from 1 July 2026",
+    published: null,
+    effective: "2026-07-01",
+    kind: "fees",
+    severity: "watch",
+    scope: "bank",
+    cardIds: ["amb-vi", "amb-vi-i"],
+    summary:
+      "Portfolio notice. Excess-limit and replacement fees fell. A printed statement doubled. Conventional cards, including Visa Infinite, moved to a 1.3% cash-advance fee plus SST, with no RM50 minimum. Islamic cards, including Islamic Visa Infinite, moved to a flat RM16 plus SST, up from RM12. Visa Infinite was not in the annual-fee table, which cut fees on BonusLink Platinum, M-Card and a UnionPay supplementary.",
+    changes: [
+      { label: "Excess limit", before: "RM9 + 8% SST", after: "RM6 + 8% SST" },
+      { label: "Card replacement", before: "RM25 + 8% SST", after: "RM12 + 8% SST" },
+      { label: "Printed statement", before: "RM12 + SST a year", after: "RM24 + SST a year. eStatement stays free" },
+      { label: "Cash advance, conventional Visa Infinite", before: "5% or RM50 minimum, + SST", after: "1.3% + SST" },
+      { label: "Cash advance, Islamic Visa Infinite", before: "RM12 + SST", after: "RM16 + SST" },
+    ],
+    sourceLabel: "AmBank announcement, effective 1 July 2026",
+    sourceUrl: "https://www.ambank.com.my/announcements/2026/revision-of-credit-card-i-fees-and-charges",
+    sourceKind: "bank",
+  },
+  {
+    id: "hlb-enrich",
+    bankId: "hlb",
+    title: "Visa Infinite Enrich rates rebuilt by category",
+    published: "2025-04-30",
+    effective: "2025-05-22",
+    kind: "points",
+    severity: "action",
+    scope: "held",
+    cardIds: ["hlb-vi"],
+    summary:
+      "Notice dated 30 April 2025, in force 22 May 2025, for Visa Infinite and Infinite Doctor’s Edition (Infinite P has its own table). The old flat rate was RM3.50 local and RM2.20 overseas per Enrich Point. Dining improved. Travel, retail and everything else got worse, and overseas no longer earns faster than local. Annual fee stayed free for life. Government, JomPay, FPX, HLB Connect QR, cash advance, quasi-cash, Quick Cash, flexi plans, balance transfer, DuitNow AutoDebit, and fees do not earn.",
+    changes: [
+      { label: "Local, all retail", before: "RM3.50 = 1 Enrich Point", after: "See categories" },
+      { label: "Overseas, all retail", before: "RM2.20 = 1 Enrich Point", after: "Same rate as local, by category" },
+      { label: "Dining", before: "Flat rate above", after: "RM1 = 1 point, local and overseas" },
+      { label: "Travel", before: "Flat rate above", after: "RM4 = 1 point" },
+      { label: "Retail shopping", before: "Flat rate above", after: "RM4 = 1 point" },
+      { label: "Other eligible spend", before: "Flat rate above", after: "RM6 = 1 point" },
+    ],
+    sourceLabel: "Hong Leong notice, 30 April 2025",
+    sourceUrl: "https://www.hlb.com.my/en/personal-banking/news-updates/hlb-visa-infinite-credit-cards-revisions-may-2025.html",
+    sourceKind: "bank",
+  },
+  {
+    id: "hsbc-afw",
+    bankId: "hsbc",
+    title: "MPower Platinum fee waiver is now RM6,000 a year",
+    published: "2025-09-01",
+    effective: "2025-09-01",
+    kind: "fees",
+    severity: "action",
+    scope: "held",
+    cardIds: ["hsbc-mpower"],
+    summary:
+      "From 1 September 2025 the MPower Platinum waiver no longer needs a monthly transaction. It needs RM6,000 retail spend a year. The fee itself did not change. If the anniversary fell in September–December 2025, the old rule still applied that year and the new one starts September 2026. January–August 2026 anniversaries were prorated from 1 October 2025 (RM500 per month counted). From September 2026 everyone is on the full RM6,000. Cash advances, most instalments, fees, disputes and taxes do not count. HSBC says it SMSes you if the fee is waived.",
+    changes: [
+      {
+        label: "Waiver",
+        before: "RM2,000 a year, and at least one spend in each of 12 straight months",
+        after: "RM6,000 a year. No monthly-swipe rule",
+      },
+      {
+        label: "2026 anniversary, Jan–Aug",
+        before: "Old rule",
+        after: "Prorated RM6,000 from 1 October 2025 to the anniversary month",
+      },
+    ],
+    sourceLabel: "HSBC Amanah customer notice, 1 September 2025",
+    sourceUrl:
+      "https://www.hsbcamanah.com.my/content/dam/hsbc/hbms/documents/help/important-information/customer-notice-new-afw-criteria-vs-and-plat.pdf",
+    sourceKind: "bank",
+  },
+  {
+    id: "hsbc-cash",
+    bankId: "hsbc",
+    title: "MPower Platinum cash advance is RM8.70 a transaction",
+    published: "2026-02-06",
+    effective: "2026-03-02",
+    kind: "fees",
+    severity: "watch",
+    scope: "held",
+    cardIds: ["hsbc-mpower"],
+    summary:
+      "Notice dated 6 February 2026. For MPower Platinum the previous charge was RM50 per RM1,000 advanced, and that charge was waived until 1 March 2026. The revised column on the same notice is a single figure, RM8.70 per transaction, set beside both the HSBC Bank list and the HSBC Amanah list.",
+    changes: [
+      {
+        label: "Cash advance",
+        before: "RM50 per RM1,000, waived until 1 March 2026",
+        after: "RM8.70 per transaction from 2 March 2026",
+      },
+    ],
+    sourceLabel: "HSBC Amanah cash-advance notice, 6 February 2026",
+    sourceUrl:
+      "https://www.hsbcamanah.com.my/content/dam/hsbc/hbms/documents/help/important-information/credit-card-i-cash-advance-fee-revision-effective-2-march-2026.pdf",
+    sourceKind: "bank",
+  },
+  {
+    id: "hsbc-tawarruq",
+    bankId: "hsbc",
+    title: "MPower Platinum contract moved from Ujrah to Tawarruq",
+    published: null,
+    effective: "2025-12-09",
+    kind: "product",
+    severity: "watch",
+    scope: "held",
+    cardIds: ["hsbc-mpower"],
+    summary:
+      "HSBC Amanah changed the Shariah contract on MPower Platinum, MPower, and Premier World Mastercard from Ujrah to Tawarruq (commodity murabahah) on 9 December 2025. The opt-out window — SMS OPTOUT1 and a full settlement by 3 December 2025 — has closed. The FAQ is the plain-language note; the customer notice is the formal one.",
+    changes: [
+      { label: "Shariah contract", before: "Ujrah", after: "Tawarruq, from 9 December 2025" },
+    ],
+    sourceLabel: "HSBC Amanah Shariah-concept FAQ",
+    sourceUrl: "https://www.hsbcamanah.com.my/content/dam/hsbc/hbms/documents/new-shariah-concept-for-credit-card-i-faq.pdf",
+    sourceKind: "bank",
+  },
+  {
+    id: "hsbc-contactless",
+    bankId: "hsbc",
+    title: "Daily contactless limit raised to RM2,500",
+    published: null,
+    effective: "2026-05-01",
+    kind: "product",
+    severity: "fyi",
+    scope: "held",
+    cardIds: ["hsbc-mpower"],
+    summary:
+      "From 1 May 2026 the daily contactless limit on HSBC and HSBC Amanah credit cards, for purchases above RM250, moved from RM1,500 to RM2,500. Each contactless transaction still cannot exceed RM2,500. Above the daily limit you need the physical card, chip and PIN. The notice says no action is required.",
+    changes: [
+      { label: "Daily contactless limit", before: "RM1,500", after: "RM2,500" },
+    ],
+    sourceLabel: "HSBC / HSBC Amanah contactless notice",
+    sourceUrl: "https://www.hsbcamanah.com.my/content/dam/hsbc/hbms/documents/updates-to-daily-contactless-limit-for-hsbc-credit-cards.pdf",
+    sourceKind: "bank",
+  },
+  {
+    id: "affin-cashback",
+    bankId: "affin",
+    title: "DUO+ cashback capped at RM250 a tap, and rounding is cut off",
+    published: "2026-01-09",
+    effective: "2026-01-30",
+    kind: "benefits",
+    severity: "action",
+    scope: "held",
+    cardIds: ["affin-duo", "affin-duo-plus"],
+    summary:
+      "Posted 9 January 2026 and in force 21 days later. DUO+ Visa cashback is for contactless retail of RM250 and below. Affin can withhold or reverse cashback if you split a bill at the same merchant to stay under that cap. Cashback is calculated per transaction to two decimal places with no rounding — the notice uses Affin DUO Visa as the illustration, so both DUO and DUO+ are in the generic terms. Cards other than Business Platinum are personal use only.",
+    changes: [
+      {
+        label: "DUO+ Visa cashback",
+        before: "Not spelled out this way",
+        after: "Contactless retail of RM250 and below. Split bills can be reversed",
+      },
+      {
+        label: "Rounding",
+        before: "Not spelled out",
+        after: "Two decimals, no round up or down. RM600.70 at 3% credits RM18.02",
+      },
+    ],
+    sourceLabel: "Affin announcement, 9 January 2026",
+    sourceUrl:
+      "https://www.affinalways.com/en/announcements/ANNOUNCEMENT%20ON%20ADDITIONAL%20CLAUSES%20FOR%20GENERIC%20AFFIN%20CREDIT%20CARDS%20TERMS%20AND%20CONDITIONS",
+    sourceKind: "bank",
+  },
+  {
+    id: "affin-miles",
+    bankId: "affin",
+    title: "DUO and DUO+ airmiles conversion worsened on 1 April 2025",
+    published: null,
+    effective: "2025-04-01",
+    kind: "points",
+    severity: "action",
+    scope: "held",
+    cardIds: ["affin-duo", "affin-duo-plus"],
+    summary:
+      "Affin’s FAQ groups DUO and DUO+ with Avance, MPN and several other cards. For that group the rate from 1 April 2025 is 20,000 Affin Rewards Points for 1,000 Enrich, 1,000 AirAsia, or 10 Batik Air points. The FAQ lists the earlier Enrich rate for the group as 14,000 points, and 12,000 points for 1,000 AirAsia or 10 Batik Air points. Invikta and World cards are separate rows. Open the FAQ before you transfer.",
+    changes: [
+      {
+        label: "Enrich, DUO and DUO+ group",
+        before: "14,000 points = 1,000 Enrich",
+        after: "20,000 points = 1,000 Enrich",
+      },
+      {
+        label: "AirAsia / Batik, same group",
+        before: "12,000 points = 1,000 AirAsia, or 10 Batik Air points",
+        after: "20,000 points for the same",
+      },
+    ],
+    sourceLabel: "Affin Rewards FAQ, effective 1 April 2025",
+    sourceUrl:
+      "https://www.affinalways.com/storage/FAQs/Final-FAQ-Revision-of-Airmiles-Points-Conversion-Rate-in-the-AFFIN-Rewards-Programme-ENG.pdf",
+    sourceKind: "bank",
+  },
+  {
+    id: "ocbc-rewards",
+    bankId: "ocbc",
+    title: "Titanium Blue left cashback and moved to OCBC$",
+    published: "2024-09-25",
+    effective: "2024-10-20",
+    kind: "points",
+    severity: "watch",
+    scope: "held",
+    cardIds: ["ocbc-ti-blue"],
+    summary:
+      "Notice dated 25 September 2024, in force 20 October 2024, for Titanium Mastercard Blue and Pink. The old online cashback bands (including 7% on a thin slice of e-wallet spend) were replaced by OCBC$. The live product page adds a 20,000 OCBC$ cap per statement cycle on the accelerated rate, then unlimited 1x, and a five-year expiry.",
+    changes: [
+      { label: "Online & e-wallet, up to RM1,000", before: "0.07% cashback", after: "12x OCBC$ on Double Date and Pay Day; 6x on other days" },
+      { label: "Online & e-wallet, RM1,000–1,500", before: "7% cashback, cap RM20 a month", after: "Same OCBC$ rates, then 1x after the cycle cap" },
+      { label: "Other retail", before: "0.1% cashback", after: "1x OCBC$, unlimited" },
+      { label: "Principal annual fee", before: "In the old feature set", after: "RM75. First year waived through 31 December 2026 on the product page; later years need RM20,000" },
+    ],
+    sourceLabel: "OCBC Titanium revision notice, 25 September 2024",
+    sourceUrl: "https://www.ocbc.com.my/iwov-resources/my/ocbc/personal/pdf/cards/general/Revision_Titanium_Mastercard.pdf",
+    sourceKind: "bank",
+  },
+  {
+    id: "ocbc-contactless",
+    bankId: "ocbc",
+    title: "OCBC daily contactless limit is RM3,000",
+    published: "2026-07-08",
+    effective: "2026-08-03",
+    kind: "product",
+    severity: "fyi",
+    scope: "bank",
+    cardIds: ["ocbc-ti-blue"],
+    summary:
+      "Notice dated 8 July 2026. From 3 August 2026 every OCBC credit card, including Titanium Blue, has a daily cumulative contactless limit of RM3,000, up from RM1,000. A single contactless charge without PIN is still capped at RM250. You can set the daily limit from RM1,000 to RM5,000 via the contact centre or a branch. A PIN transaction refreshes the cumulative limit.",
+    changes: [
+      { label: "Daily cumulative contactless", before: "RM1,000", after: "RM3,000 default. Choosable from RM1,000 to RM5,000" },
+      { label: "Single tap without PIN", before: "RM250", after: "RM250, unchanged" },
+    ],
+    sourceLabel: "OCBC notice, 8 July 2026",
+    sourceUrl: "https://www.ocbc.com.my/iwov-resources/my/ocbc/personal/pdf/notices/Announcement-for-Contactless-Cumulative-Limit-Credit-Card.pdf",
+    sourceKind: "bank",
+  },
+  {
+    id: "mb-2-refund",
+    bankId: "maybank",
+    title: "Maybank 2 Gold can claw back cashback and TreatsPoints on a refund",
+    published: "2026-01-06",
+    effective: "2026-01-06",
+    kind: "terms",
+    severity: "watch",
+    scope: "held",
+    cardIds: ["mb-2-gold"],
+    summary:
+      "RinggitPlus reported that Maybank revised the 2 Gold and 2 Platinum terms from 6 January 2026. Earn rates did not change. The new wording says cashback and TreatsPoints on a refunded or reversed purchase can be taken back, in full or in part, even if the reward had not posted yet, and even if the reversal comes much later. This item is a press report. Confirm it against Maybank’s own terms before you rely on it.",
+    changes: [
+      {
+        label: "Earn rate",
+        before: "Unchanged",
+        after: "Unchanged",
+      },
+      {
+        label: "Refunds and reversals",
+        before: "Narrower clawback wording",
+        after: "Rewards may be reversed on a full or partial refund, whenever it posts",
+      },
+    ],
+    sourceLabel: "RinggitPlus, 14 January 2026 — confirm on Maybank",
+    sourceUrl: "https://ringgitplus.com/en/blog/credit-card-news/maybank-2-cards-update-cashback-and-treatspoints-terms.html",
+    sourceKind: "press",
+  },
+  {
+    id: "mb-ikhwan-miles",
+    bankId: "maybank",
+    title: "Ikhwan American Express miles rate in force since 22 May 2024",
+    published: null,
+    effective: "2024-05-22",
+    kind: "points",
+    severity: "fyi",
+    scope: "held",
+    cardIds: ["mb-ikhwan-amex"],
+    summary:
+      "The Maybank Islamic Ikhwan Gold page still prints this notice: from 22 May 2024, Maybank American Express, Mastercard, and Visa Gold & Platinum convert at 20,000 TreatsPoints = 1,000 Enrich, KrisFlyer or Asia Miles, up from 14,000. It is an old change, and it is the rate the product page is still showing. Visa Infinite is a different table and is not this card.",
+    changes: [
+      {
+        label: "Air miles, Gold & Platinum including American Express",
+        before: "14,000 TreatsPoints = 1,000 miles",
+        after: "20,000 TreatsPoints = 1,000 miles",
+      },
+    ],
+    sourceLabel: "Maybank Islamic Ikhwan Gold page",
+    sourceUrl:
+      "https://www.maybank2u.com.my/maybank2u/malaysia/en/personal/cards/credit/islamic_mastercard_ikhwan_gold_card.page",
+    sourceKind: "bank",
+  },
+  {
+    id: "hlb-tnc",
+    bankId: "hlb",
+    title: "Hong Leong credit-card terms revised from 14 May 2026",
+    published: "2026-04-23",
+    effective: "2026-05-14",
+    kind: "terms",
+    severity: "watch",
+    scope: "bank",
+    cardIds: ["hlb-vi"],
+    summary:
+      "Notice dated 23 April 2026. Revised terms for Infinite P, Infinite, Infinite Doctor’s Edition and several other Hong Leong cards took effect on 14 May 2026. The news post links the new documents and does not itself spell a new earn rate — the May 2025 Enrich table is the rate change. Read the Infinite terms if a privilege you use is contractual.",
+    changes: [],
+    sourceLabel: "Hong Leong news, 23 April 2026",
+    sourceUrl: "https://www.hlb.com.my/en/personal-banking/news-updates/hlb-revision-of-terms-and-conditions-for-hlb-credit-cards.html",
+    sourceKind: "bank",
+  },
+  {
+    id: "amb-tnc",
+    bankId: "ambank",
+    title: "AmBank cardholder agreements revised from 30 September 2025",
+    published: "2025-09-08",
+    effective: "2025-09-30",
+    kind: "terms",
+    severity: "watch",
+    scope: "bank",
+    cardIds: ["amb-vi", "amb-vi-i"],
+    summary:
+      "Notice dated 8 September 2025. The conventional and Islamic cardholder agreements, plus a long list of programme terms, took effect on 30 September 2025. The introduction does not itself publish a new miles rate — that is the April 2026 Enrich notice. This one is the contract refresh underneath both Visa Infinite cards.",
+    changes: [],
+    sourceLabel: "AmBank announcement, 8 September 2025",
+    sourceUrl:
+      "https://www.ambank.com.my/announcements/2025/revision-of-the-ambank-ambank-islamic-credit-card--i-terms-and-conditions-(september-2025)",
+    sourceKind: "bank",
+  },
+  {
+    id: "ab-features",
+    bankId: "alliance",
+    title: "August 2025 features revision left Platinum Virtual alone",
+    published: "2025-07-11",
+    effective: "2025-08-01",
+    kind: "benefits",
+    severity: "fyi",
+    scope: "held",
+    cardIds: ["ab-virtual"],
+    summary:
+      "From 1 August 2025 Alliance rewrote Timeless Bonus Points and some annual fees on Visa Platinum and Visa Infinite. In the same notice Alliance said there are no changes to the features of the Visa Platinum Virtual Credit Card. If your virtual Visa is that product, this revision is a non-event. If it is a different virtual card, read the Infinite and Platinum tables before assuming you were spared.",
+    changes: [
+      {
+        label: "Visa Platinum Virtual features",
+        before: "Unchanged, per Alliance",
+        after: "Unchanged",
+      },
+    ],
+    sourceLabel: "Alliance media centre, 11 July 2025",
+    sourceUrl:
+      "https://www.alliancebank.com.my/about-us/Media-Centre/Revision-to-Alliance-Bank-Credit-Card-Product-Features-and-Fees-Charges",
+    sourceKind: "bank",
+  },
+  {
+    id: "ab-points-expiry",
+    bankId: "alliance",
+    title: "Alliance bonus points now expire after three years",
+    published: "2025-11-10",
+    effective: "2025-12-01",
+    kind: "points",
+    severity: "action",
+    scope: "bank",
+    cardIds: ["ab-virtual"],
+    summary:
+      "Notice dated 10 November 2025, in force 1 December 2025. Timeless Bonus Points were renamed Three-year Bonus Points. The abbreviation stays TBP. Points no longer last forever: anything earned before 1 December 2025 expires on 30 November 2028, and points earned after that last until the end of the third year from the month they were earned. Enrich and AirAsia redemptions must be in blocks of 5,000 miles (75,000 TBP for 5,000 Enrich, 30,000 TBP for 5,000 AirAsia). The August 2025 features notice left Visa Platinum Virtual earn rates alone. This later notice is about the points balance itself. If your virtual Visa earns TBP, the expiry applies.",
+    changes: [
+      { label: "Name", before: "Timeless Bonus Points", after: "Three-year Bonus Points (still TBP)" },
+      { label: "Expiry", before: "None", after: "Three years. Pre-December 2025 points expire 30 November 2028" },
+      { label: "Air miles blocks", before: "Smaller conversions were published", after: "Multiples of 5,000 Enrich or AirAsia points only" },
+    ],
+    sourceLabel: "Alliance media centre, 10 November 2025",
+    sourceUrl:
+      "https://www.alliancebank.com.my/about-us/Media-Centre/Revision-to-Alliance-Bank-Bonus-Points-and-Air-Miles-Redemption",
+    sourceKind: "bank",
+  },
+  {
+    id: "ab-agreement",
+    bankId: "alliance",
+    title: "Visa and Mastercard cardholder agreement revised",
+    published: "2025-12-01",
+    effective: "2025-12-01",
+    kind: "terms",
+    severity: "watch",
+    scope: "bank",
+    cardIds: ["ab-virtual"],
+    summary:
+      "From 1 December 2025 the Alliance Bank Visa/Mastercard Credit Cardholder Agreement was revised under the Fair Treatment of Financial Consumers policy. It applies to Visa and Mastercard cardholders, which includes a virtual Visa. The notice points at the PDF rather than listing fee or points changes.",
+    changes: [],
+    sourceLabel: "Alliance media centre, 1 December 2025",
+    sourceUrl: "https://www.alliancebank.com.my/about-us/Media-Centre/revision-of-alliance-bank-credit-cardholder-agreement",
+    sourceKind: "bank",
+  },
+  {
+    id: "cimb-preferred",
+    bankId: "cimb",
+    title: "Preferred Visa Infinite bonus thresholds rose — not your PETRONAS card",
+    published: null,
+    effective: "2026-06-01",
+    kind: "points",
+    severity: "fyi",
+    scope: "other",
+    cardIds: [],
+    summary:
+      "From 1 June 2026 the CIMB Preferred Visa Infinite extra-bonus campaign counts supplementary spend, and the monthly thresholds moved up: 25,000 bonus points from RM8,000 to RM10,000, and 35,000 bonus points from RM10,000 to RM12,000. You do not hold Preferred Visa Infinite. It is here so a CIMB points headline does not get mistaken for PETRONAS, Travel or the e Credit Card.",
+    changes: [
+      { label: "Tier for 25,000 bonus points", before: "RM8,000", after: "RM10,000" },
+      { label: "Tier for 35,000 bonus points", before: "RM10,000", after: "RM12,000" },
+    ],
+    sourceLabel: "CIMB Preferred Visa Infinite notice",
+    sourceUrl:
+      "https://www.cimb.com.my/en/personal/important-notices/2026/notice-of-amendments-to-cimb-preferred-visa-infinite-extra-bonuspoints-campaign-tnc.html",
+    sourceKind: "bank",
+  },
+];
+
+export function bankById(id: string) {
+  return banks.find((bank) => bank.id === id);
+}
+
+export function cardById(id: string) {
+  return cards.find((card) => card.id === id);
+}

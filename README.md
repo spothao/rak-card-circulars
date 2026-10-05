@@ -16,3 +16,5 @@ node scripts/build.mjs
 ```
 
 Open `dist/index.html`.
+
+The interactive desk (Feed, Banks, Wallet, File a notice) is in [app/](app/). Adding or removing a card stays in the browser. GitHub Pages still serves this weekly digest, not that desk.
