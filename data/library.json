@@ -70,6 +70,76 @@
       "short": "AEON",
       "hubLabel": "AEON Biker Infinite page",
       "hubUrl": "https://myaeoncredit.com.my/aeon-cards/aeon-biker-infinite-visa-card/"
+    },
+    {
+      "id": "public",
+      "name": "Public Bank & Public Islamic",
+      "short": "Public Bank",
+      "hubLabel": "Public Bank announcements",
+      "hubUrl": "https://www.pbebank.com/en/personal-banking/announcements/"
+    },
+    {
+      "id": "rhb",
+      "name": "RHB Bank & RHB Islamic",
+      "short": "RHB",
+      "hubLabel": "RHB highlights",
+      "hubUrl": "https://www.rhbgroup.com/others/highlights/index.html"
+    },
+    {
+      "id": "uob",
+      "name": "UOB Malaysia",
+      "short": "UOB",
+      "hubLabel": "UOB announcements",
+      "hubUrl": "https://www.uob.com.my/personal/announcement.page"
+    },
+    {
+      "id": "sc",
+      "name": "Standard Chartered",
+      "short": "Standard Chartered",
+      "hubLabel": "Standard Chartered important information",
+      "hubUrl": "https://www.sc.com/my/important-information/"
+    },
+    {
+      "id": "hsbc-my",
+      "name": "HSBC Bank Malaysia",
+      "short": "HSBC Bank",
+      "hubLabel": "HSBC Bank important notices",
+      "hubUrl": "https://www.hsbc.com.my/help/important-information/"
+    },
+    {
+      "id": "bankislam",
+      "name": "Bank Islam",
+      "short": "Bank Islam",
+      "hubLabel": "Bank Islam announcements",
+      "hubUrl": "https://www.bankislam.com/announcement/"
+    },
+    {
+      "id": "muamalat",
+      "name": "Bank Muamalat",
+      "short": "Muamalat",
+      "hubLabel": "Bank Muamalat announcements",
+      "hubUrl": "https://www.muamalat.com.my/publications/announcements/"
+    },
+    {
+      "id": "bankrakyat",
+      "name": "Bank Rakyat",
+      "short": "Bank Rakyat",
+      "hubLabel": "Bank Rakyat news",
+      "hubUrl": "https://www.bankrakyat.com.my/"
+    },
+    {
+      "id": "bsn",
+      "name": "BSN",
+      "short": "BSN",
+      "hubLabel": "BSN card announcements",
+      "hubUrl": "https://www.bsn.com.my/IslamicBanking/Cards-i/credit-card-announcement"
+    },
+    {
+      "id": "icbc",
+      "name": "ICBC Malaysia",
+      "short": "ICBC",
+      "hubLabel": "ICBC Malaysia notices",
+      "hubUrl": "https://malaysia.icbc.com.cn/"
     }
   ],
   "cards": [

@@ -1,15 +1,15 @@
 {
   "checkedOn": "2026-10-05",
-  "added": 5,
+  "added": 0,
   "banks": [
     {
       "bankId": "maybank",
       "checkedOn": "2026-10-05",
       "ok": false,
-      "status": 0,
+      "status": 403,
       "links": 0,
       "added": 0,
-      "error": "AbortError"
+      "error": ""
     },
     {
       "bankId": "cimb",
@@ -53,7 +53,7 @@
       "ok": true,
       "status": 200,
       "links": 449,
-      "added": 5,
+      "added": 0,
       "error": ""
     },
     {
@@ -80,6 +80,96 @@
       "ok": true,
       "status": 200,
       "links": 66,
+      "added": 0,
+      "error": ""
+    },
+    {
+      "bankId": "public",
+      "checkedOn": "2026-10-05",
+      "ok": true,
+      "status": 200,
+      "links": 105,
+      "added": 0,
+      "error": ""
+    },
+    {
+      "bankId": "rhb",
+      "checkedOn": "2026-10-05",
+      "ok": true,
+      "status": 200,
+      "links": 943,
+      "added": 0,
+      "error": ""
+    },
+    {
+      "bankId": "uob",
+      "checkedOn": "2026-10-05",
+      "ok": true,
+      "status": 200,
+      "links": 120,
+      "added": 0,
+      "error": ""
+    },
+    {
+      "bankId": "sc",
+      "checkedOn": "2026-10-05",
+      "ok": true,
+      "status": 200,
+      "links": 422,
+      "added": 0,
+      "error": ""
+    },
+    {
+      "bankId": "hsbc-my",
+      "checkedOn": "2026-10-05",
+      "ok": true,
+      "status": 200,
+      "links": 485,
+      "added": 0,
+      "error": ""
+    },
+    {
+      "bankId": "bankislam",
+      "checkedOn": "2026-10-05",
+      "ok": false,
+      "status": 403,
+      "links": 0,
+      "added": 0,
+      "error": ""
+    },
+    {
+      "bankId": "muamalat",
+      "checkedOn": "2026-10-05",
+      "ok": true,
+      "status": 200,
+      "links": 301,
+      "added": 0,
+      "error": ""
+    },
+    {
+      "bankId": "bankrakyat",
+      "checkedOn": "2026-10-05",
+      "ok": false,
+      "status": 403,
+      "links": 0,
+      "added": 0,
+      "error": ""
+    },
+    {
+      "bankId": "bsn",
+      "checkedOn": "2026-10-05",
+      "ok": true,
+      "status": 200,
+      "links": 26,
+      "added": 0,
+      "error": ""
+    },
+    {
+      "bankId": "icbc",
+      "checkedOn": "2026-10-05",
+      "ok": true,
+      "status": 200,
+      "links": 14,
       "added": 0,
       "error": ""
     }

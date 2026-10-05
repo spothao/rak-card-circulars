@@ -16,6 +16,9 @@ const spotted = readJson(spottedPath, []);
 const seenPath = new URL("../data/seen.json", import.meta.url);
 const seenDoc = readJson(seenPath, null);
 const seen = new Set((seenDoc && seenDoc.urls) || []);
+const seededBanks = new Set(
+  seenDoc?.bankIds?.length ? seenDoc.bankIds : library.notices.map((notice) => notice.bankId),
+);
 const baselining = !seenDoc;
 const today = new Date().toISOString().slice(0, 10);
 
@@ -129,6 +132,7 @@ const checks = [];
 let added = 0;
 
 for (const bank of library.banks) {
+  const firstLook = !seededBanks.has(bank.id);
   const check = { bankId: bank.id, checkedOn: today, ok: false, status: 0, links: 0, added: 0, error: "" };
   try {
     const result = await fetchText(bank.hubUrl);
@@ -140,7 +144,7 @@ for (const bank of library.banks) {
       const key = normalize(link.url);
       if (known.has(key)) continue;
       if (!isNotice(link)) continue;
-      console.log(`  ${baselining ? "baseline" : "new"} ${link.title}`);
+      console.log(`  ${baselining || firstLook ? "baseline" : "new"} ${link.title}`);
       if (check.added >= 8) continue;
       const host = new URL(bank.hubUrl).hostname.replace(/^www\./, "");
       const linkHost = new URL(link.url).hostname.replace(/^www\./, "");
@@ -164,12 +168,13 @@ for (const bank of library.banks) {
       };
       seen.add(key);
       known.add(key);
-      if (!baselining) {
+      if (!baselining && !firstLook) {
         spotted.unshift(item);
         added += 1;
         check.added += 1;
       }
     }
+    if (check.ok) seededBanks.add(bank.id);
   } catch (error) {
     check.error = error instanceof Error ? error.name : "fetch failed";
   }
@@ -177,7 +182,7 @@ for (const bank of library.banks) {
   console.log(`${bank.short}: status ${check.status} links ${check.links} new ${check.added}${check.error ? ` (${check.error})` : ""}`);
 }
 
-writeFileSync(seenPath, JSON.stringify({ baselinedOn: seenDoc?.baselinedOn || today, urls: [...seen].sort() }, null, 2) + "\n");
+writeFileSync(seenPath, JSON.stringify({ baselinedOn: seenDoc?.baselinedOn || today, bankIds: [...seededBanks].sort(), urls: [...seen].sort() }, null, 2) + "\n");
 writeFileSync(spottedPath, JSON.stringify(spotted, null, 2) + "\n");
 writeFileSync(
   checksPath,

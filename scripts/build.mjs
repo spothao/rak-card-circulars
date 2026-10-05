@@ -80,7 +80,7 @@ const banksHtml = library.banks
       : "Not checked yet";
     return `<article class="card">
       <h2>${escapeHtml(bank.short)}</h2>
-      <p class="muted">${escapeHtml(held.join(" · "))}</p>
+      <p class="muted">${escapeHtml(held.length ? held.join(" · ") : "No card in your wallet. Watched for issuer notices.")}</p>
       <p>${escapeHtml(status)}</p>
       <p><a class="go" href="${escapeHtml(bank.hubUrl)}" rel="noreferrer">${escapeHtml(bank.hubLabel)}</a></p>
     </article>`;
@@ -138,7 +138,7 @@ const html = `<!doctype html>
   <header>
     <div class="wrap">
       <p class="brand">Rak</p>
-      <p class="lede">Card circulars for one Malaysian wallet. Library compiled ${escapeHtml(pretty(library.compiledOn))}. Official pages last checked ${escapeHtml(pretty(checks.checkedOn || library.compiledOn))}.</p>
+      <p class="lede">Card circulars for one Malaysian wallet, plus every other credit-card issuer. Library compiled ${escapeHtml(pretty(library.compiledOn))}. Official pages last checked ${escapeHtml(pretty(checks.checkedOn || library.compiledOn))}.</p>
       <p class="stamp">${escapeHtml(String((checks.added ?? 0) + spotted.length))} spotted since the library</p>
     </div>
   </header>
