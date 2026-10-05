@@ -10,6 +10,7 @@ permissions:
   contents: write
   pages: write
   id-token: write
+  administration: write
 
 concurrency:
   group: pages
@@ -46,6 +47,16 @@ jobs:
           else
             git commit -m "Refresh bank pages"
             git push
+          fi
+
+      - name: Turn on GitHub Pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh api "repos/${{ github.repository }}/pages" >/dev/null 2>&1; then
+            echo "Pages already on."
+          else
+            gh api --method POST "repos/${{ github.repository }}/pages" --raw-field build_type=workflow
           fi
 
       - name: Upload Pages artifact
