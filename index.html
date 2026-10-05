@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Rak — card circulars</title>
-  <meta name="description" content="Weekly public digest of Malaysian credit-card notices for one wallet." />
+  <meta name="description" content="Card circulars for one Malaysian wallet: feed, banks, wallet, and notices you file." />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%238f2d28' width='32' height='32' rx='6'/%3E%3Ctext x='16' y='22' text-anchor='middle' fill='%23fffdf9' font-size='16' font-family='Georgia'%3ER%3C/text%3E%3C/svg%3E" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,520;9..144,640&family=Source+Sans+3:wght@400;600;700&display=swap" />
   <style>
@@ -13,571 +13,725 @@
     body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Source Sans 3", sans-serif; font-size: 1.0625rem; line-height: 1.5; }
     h1, h2 { font-family: Fraunces, Georgia, serif; font-weight: 520; text-wrap: balance; }
     header { background: var(--surface); border-bottom: 1px solid var(--line); }
-    .wrap { max-width: 46rem; margin: 0 auto; padding: 1.25rem 1rem 3rem; }
+    .wrap { max-width: 46rem; margin: 0 auto; padding: 1.25rem 1rem 5.5rem; }
+    .top { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
     .brand { font-family: Fraunces, Georgia, serif; font-size: 2.4rem; line-height: 1; margin: 0; }
-    .lede { color: var(--muted); margin: 0.4rem 0 0; }
-    .stamp { display: inline-block; margin-top: 0.8rem; background: var(--stamp); color: var(--raised); border-radius: 999px; padding: 0.25rem 0.75rem; font-size: 0.9rem; font-weight: 700; }
+    .lede { color: var(--muted); margin: 0.4rem 0 0; max-width: 36rem; }
+    .stamp, .open { display: inline-block; background: var(--stamp); color: var(--raised); border-radius: 999px; padding: 0.25rem 0.75rem; font-size: 0.9rem; font-weight: 700; white-space: nowrap; }
+    .stamp { margin-top: 0; }
     .bar { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0; }
-    input, button { min-height: 2.75rem; border-radius: 999px; font: inherit; }
-    input { flex: 1 1 12rem; border: 1px solid var(--line); background: var(--raised); padding: 0 1rem; color: var(--ink); }
-    button { border: 0; background: var(--raised); color: var(--ink); padding: 0 1rem; font-weight: 700; cursor: pointer; }
-    button.on { background: var(--stamp); color: var(--raised); }
-    section { margin-top: 1.75rem; }
-    h2 { font-size: 1.6rem; margin: 0 0 0.6rem; }
+    input, select, textarea, button { font: inherit; color: var(--ink); }
+    input, select, textarea { width: 100%; border: 1px solid var(--line); background: var(--surface); border-radius: 0.875rem; padding: 0.65rem 0.9rem; }
+    input[type="search"] { border-radius: 999px; background: var(--raised); min-height: 2.75rem; flex: 1 1 12rem; }
+    button { min-height: 2.75rem; border-radius: 999px; border: 1px solid var(--line); background: var(--raised); padding: 0 1rem; font-weight: 700; cursor: pointer; }
+    button.on { background: var(--ink); color: var(--raised); border-color: var(--ink); }
+    button.danger { border: 0; background: transparent; color: var(--stamp); padding-left: 0; }
+    button.go, a.go { display: inline-flex; align-items: center; min-height: 2.75rem; background: var(--stamp); color: var(--raised); text-decoration: none; font-weight: 700; font-size: 0.95rem; border-radius: 999px; padding: 0 1rem; border: 0; }
+    a.go { background: var(--ink); }
+    section { margin-top: 1.25rem; }
+    h2 { font-size: 1.45rem; margin: 0 0 0.55rem; line-height: 1.2; }
     .card { background: var(--raised); border: 1px solid var(--line); border-radius: 0.875rem; padding: 1rem 1.05rem; margin: 0 0 0.75rem; }
-    .card h2 { font-size: 1.35rem; line-height: 1.25; }
+    button.card { display: block; width: 100%; text-align: left; border-radius: 0.875rem; }
+    .card h2 { font-size: 1.35rem; }
     .meta, .when, .muted { color: var(--muted); font-size: 0.92rem; }
+    .stamp-text { color: var(--stamp); font-weight: 700; margin: 0; }
     .dot { display: inline-block; width: 0.5rem; height: 0.5rem; border-radius: 99px; background: var(--stamp); margin-right: 0.4rem; }
+    .dot.off { background: var(--line); }
     .change { border-top: 1px solid var(--line); padding-top: 0.6rem; margin-top: 0.6rem; }
     .change dt { font-weight: 700; font-size: 0.92rem; }
     .change dd { margin: 0.15rem 0; }
-    a.go { display: inline-flex; align-items: center; min-height: 2.75rem; background: var(--ink); color: var(--raised); text-decoration: none; font-weight: 700; font-size: 0.92rem; border-radius: 999px; padding: 0 1rem; }
-    a.go:hover { background: var(--stamp); }
-    .hidden { display: none; }
+    .split { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.75rem; }
+    .stack { display: grid; gap: 0.75rem; }
+    .pair { display: grid; gap: 0.75rem; }
+    label { display: grid; gap: 0.3rem; font-size: 0.92rem; font-weight: 700; }
+    fieldset { border: 0; margin: 0; padding: 0; }
+    legend { font-weight: 700; font-size: 0.92rem; }
+    @media (min-width: 700px) {
+      .pair { grid-template-columns: 1fr 1fr; }
+      .wrap { padding-bottom: 3rem; }
+      .dock { display: none; }
+    }
+    .dock { position: fixed; inset: auto 0 0 0; z-index: 5; display: grid; grid-template-columns: repeat(4, 1fr); background: var(--surface); border-top: 1px solid var(--line); }
+    .dock button { border: 0; border-radius: 0; background: transparent; min-height: 3.5rem; }
+    .dock button.on { color: var(--stamp); background: transparent; }
     footer { color: var(--muted); font-size: 0.92rem; margin-top: 2rem; }
   </style>
 </head>
 <body>
   <header>
     <div class="wrap">
-      <p class="brand">Rak</p>
-      <p class="lede">Card circulars for one Malaysian wallet, plus every other credit-card issuer. Library compiled 5 Oct 2026. Official pages last checked 5 Oct 2026.</p>
-      <p class="stamp">5 spotted since the library</p>
+      <div class="top">
+        <div>
+          <p class="brand">Rak</p>
+          <p class="lede">Card circulars for one Malaysian wallet, plus every other credit-card issuer. Library compiled 5 Oct 2026. Official pages last checked 5 Oct 2026. Cards you add, and notices you file, stay in this browser.</p>
+        </div>
+        <p class="open" id="open-count">0 open</p>
+      </div>
+      <nav class="bar" id="nav" aria-label="Sections"></nav>
     </div>
   </header>
   <main class="wrap">
-    <div class="bar">
-      <input id="q" type="search" placeholder="Search bank, card, or change" aria-label="Search notices" />
-      <button type="button" data-kind="all" class="on">All</button><button type="button" data-kind="points" class="">Points</button><button type="button" data-kind="benefits" class="">Benefits</button><button type="button" data-kind="fees" class="">Fees</button><button type="button" data-kind="terms" class="">Terms</button><button type="button" data-kind="product" class="">Product</button>
-    </div>
-    <section id="spotted">
-      <h2>Spotted this week</h2>
-      <article class="card" data-bank="hsbc" data-kind="terms" data-title="customer notice - amendments to the terms &amp; conditions for hsbc amanah premier world mastercard credit card effective 1 june 2023 (pdf) hsbc amanah hsbc amanah mpower platinum">
-    <p class="meta"><span class="dot"></span>HSBC Amanah · Terms · New on the page</p>
-    <h2>Customer Notice - Amendments to the Terms &amp; Conditions for HSBC Amanah Premier World Mastercard Credit Card effective 1 June 2023 (PDF)</h2>
-    <p class="when">Spotted 5 Oct 2026</p>
-    <p>Spotted on HSBC Amanah important notices on 2026-10-05. The weekly check only captured the title and link. Open the source before you rely on it.</p>
-    
-    <p class="muted">Touches: HSBC Amanah MPower Platinum</p>
-    <p><a class="go" href="https://www.hsbcamanah.com.my/content/dam/hsbc/hbms/documents/notice-of-amendments-to%20the-terms-conditions-for-hsbc-amanah-premier-world-mastercard%C2%AE-credit-card-eff-1-june-2023.pdf" rel="noreferrer">HSBC Amanah important notices</a></p>
-  </article><article class="card" data-bank="hsbc" data-kind="product" data-title="customer notice - revised authentication method for telebanking pin creation &amp; reset, voice id enrolment and card-i activation &amp; card-i pin creation (effective 11 aug 2024) hsbc amanah hsbc amanah mpower platinum">
-    <p class="meta"><span class="dot"></span>HSBC Amanah · Product · New on the page</p>
-    <h2>Customer Notice - Revised Authentication Method for Telebanking PIN Creation &amp; Reset, Voice ID Enrolment and Card-i Activation &amp; Card-i PIN Creation (Effective 11 Aug 2024)</h2>
-    <p class="when">Spotted 5 Oct 2026</p>
-    <p>Spotted on HSBC Amanah important notices on 2026-10-05. The weekly check only captured the title and link. Open the source before you rely on it.</p>
-    
-    <p class="muted">Touches: HSBC Amanah MPower Platinum</p>
-    <p><a class="go" href="https://www.hsbcamanah.com.my/content/dam/hsbc/hbms/documents/important-notice/notice-to-customer-amanah.pdf" rel="noreferrer">HSBC Amanah important notices</a></p>
-  </article><article class="card" data-bank="hsbc" data-kind="terms" data-title="customer notice - revision of hsbc amanah malaysia berhad universal terms &amp; conditions and cardholder agreement hsbc amanah hsbc amanah mpower platinum">
-    <p class="meta"><span class="dot"></span>HSBC Amanah · Terms · New on the page</p>
-    <h2>Customer Notice - Revision of HSBC Amanah Malaysia Berhad Universal Terms &amp; Conditions and Cardholder Agreement</h2>
-    <p class="when">Spotted 5 Oct 2026</p>
-    <p>Spotted on HSBC Amanah important notices on 2026-10-05. The weekly check only captured the title and link. Open the source before you rely on it.</p>
-    
-    <p class="muted">Touches: HSBC Amanah MPower Platinum</p>
-    <p><a class="go" href="https://www.hsbcamanah.com.my/content/dam/hsbc/hbms/documents/customer-notice-revision-of-hsbc-amanah-malaysia-berhad-universal-terms-and-conditions-and-cardholder-agreement.pdf" rel="noreferrer">HSBC Amanah important notices</a></p>
-  </article><article class="card" data-bank="hsbc" data-kind="product" data-title="customer notice - revision of card verification method for provisioning of hsbc credit card-i to mobile wallets effective 24 june 2025 (pdf) hsbc amanah hsbc amanah mpower platinum">
-    <p class="meta"><span class="dot"></span>HSBC Amanah · Product · New on the page</p>
-    <h2>Customer Notice - Revision of Card Verification Method for Provisioning of HSBC Credit Card-i to Mobile Wallets Effective 24 June 2025 (PDF)</h2>
-    <p class="when">Spotted 5 Oct 2026</p>
-    <p>Spotted on HSBC Amanah important notices on 2026-10-05. The weekly check only captured the title and link. Open the source before you rely on it.</p>
-    
-    <p class="muted">Touches: HSBC Amanah MPower Platinum</p>
-    <p><a class="go" href="https://www.hsbcamanah.com.my/content/dam/hsbc/hbms/documents/help/important-information/customer-notice-revision-of-card-verification-method-for-provisioning-of-hsbc-credit-card-i-to-mobile-wallets-effective-24-june-2025.pdf" rel="noreferrer">HSBC Amanah important notices</a></p>
-  </article><article class="card" data-bank="hsbc" data-kind="product" data-title="revision of card verification method for provisioning of hsbc supplementary credit card/-i to mobile wallets effective 16 february 2026 (pdf) hsbc amanah hsbc amanah mpower platinum">
-    <p class="meta"><span class="dot"></span>HSBC Amanah · Product · New on the page</p>
-    <h2>Revision of Card Verification Method for Provisioning of HSBC Supplementary Credit Card/-i to Mobile Wallets effective 16 February 2026 (PDF)</h2>
-    <p class="when">Spotted 5 Oct 2026</p>
-    <p>Spotted on HSBC Amanah important notices on 2026-10-05. The weekly check only captured the title and link. Open the source before you rely on it.</p>
-    
-    <p class="muted">Touches: HSBC Amanah MPower Platinum</p>
-    <p><a class="go" href="https://www.hsbcamanah.com.my/content/dam/hsbc/hbms/documents/revision-of-card-verification-method.pdf" rel="noreferrer">HSBC Amanah important notices</a></p>
-  </article>
-    </section>
-    <section id="ahead">
-      <h2>Still ahead</h2>
-      <article class="card" data-bank="cimb" data-kind="points" data-title="flying blue leaves cimb member rewards on 11 october 2026 cimb bank cimb petronas visa infinite cimb e credit card cimb travel platinum cimb travel world">
-    <p class="meta"><span class="dot"></span>CIMB · Points</p>
-    <h2>Flying Blue leaves CIMB Member Rewards on 11 October 2026</h2>
-    <p class="when">Takes effect 11 Oct 2026 · in 6 days</p>
-    <p>On the Bonus Points redemption page, CIMB says Air France-KLM Flying Blue stops as an airmiles partner on 11 October 2026. Redemptions need to be in by 10 October 2026. Bonus Points stay usable with the other airline partners.</p>
-    <dl><div class="change">
-        <dt>Flying Blue</dt>
-        <dd class="muted">Before: Airline partner under Member Rewards</dd>
-        <dd>Now: Unavailable from 11 October 2026</dd>
-      </div><div class="change">
-        <dt>Last day to redeem</dt>
-        <dd class="muted">Before: Open</dd>
-        <dd>Now: 10 October 2026</dd>
-      </div></dl>
-    <p class="muted">Touches: CIMB PETRONAS Visa Infinite, CIMB e Credit Card, CIMB Travel Platinum, CIMB Travel World</p>
-    <p><a class="go" href="https://www.cimb.com.my/en/personal/day-to-day-banking/cards/credit-card/bonus-points-redemption.html" rel="noreferrer">CIMB Bonus Points redemption</a></p>
-  </article><article class="card" data-bank="cimb" data-kind="terms" data-title="cardholder terms amended from 16 october 2026 cimb bank cimb petronas visa infinite cimb e credit card cimb travel platinum cimb travel world">
-    <p class="meta"><span class="dot"></span>CIMB · Terms</p>
-    <h2>Cardholder terms amended from 16 October 2026</h2>
-    <p class="when">Takes effect 16 Oct 2026 · in 11 days</p>
-    <p>Notice dated 25 September 2026. CIMB Bank and CIMB Islamic cardholder terms change on 16 October 2026. The notice says the clause edits are in tables on that page. This desk does not restate clauses it could not read off the page — open the notice itself.</p>
-    
-    <p class="muted">Touches: CIMB PETRONAS Visa Infinite, CIMB e Credit Card, CIMB Travel Platinum, CIMB Travel World</p>
-    <p><a class="go" href="https://www.cimb.com.my/en/personal/important-notices/2026/notice-of-amendments-to-cimb-bank-cimb-islamic-bank-cardholder-terms-and-conditions.html" rel="noreferrer">CIMB important notice, 25 September 2026</a></p>
-  </article>
-    </section>
-    <section id="file">
-      <h2>Already in the library</h2>
-      <article class="card" data-bank="hsbc" data-kind="benefits" data-title="mpower platinum cashback rules rewritten from 1 october 2026 hsbc amanah hsbc amanah mpower platinum">
-    <p class="meta"><span class="dot"></span>HSBC Amanah · Benefits</p>
-    <h2>MPower Platinum cashback rules rewritten from 1 October 2026</h2>
-    <p class="when">In force since 1 Oct 2026</p>
-    <p>Notice dated 28 September 2026. eWallet top-up no longer includes Samsung Pay; Samsung Pay is now a payment-authorisation channel, and petrol or groceries paid that way count as eWallet. Giant groceries now include GHC Retail. Exclusions are split into base cashback and bonus cashback. A transaction dated in one month but posted after the 7th of the next month counts in the posting month. On a card instalment, only the original purchase counts toward eligible spend — later instalments do not.</p>
-    <dl><div class="change">
-        <dt>eWallet top-up</dt>
-        <dd class="muted">Before: Samsung Pay, GrabPay, Touch ’n Go, FavePay</dd>
-        <dd>Now: GrabPay, Touch ’n Go, FavePay. Samsung Pay is payment authorisation only</dd>
-      </div><div class="change">
-        <dt>Groceries</dt>
-        <dd class="muted">Before: Giant, Lotus’s, AEON BiG, Mydin</dd>
-        <dd>Now: Giant including GHC Retail, Lotus’s, AEON BiG, Mydin</dd>
-      </div><div class="change">
-        <dt>Posting cut-off</dt>
-        <dd class="muted">Before: Not stated this way</dd>
-        <dd>Now: Posted after the 7th of the next month counts in the posting month</dd>
-      </div></dl>
-    <p class="muted">Touches: HSBC Amanah MPower Platinum</p>
-    <p><a class="go" href="https://www.hsbcamanah.com.my/content/dam/hsbc/hbms/documents/hsbc-mpower-platinum-tnc-customer-notice-sept-2026.pdf" rel="noreferrer">HSBC Amanah MPower Platinum notice, 28 September 2026</a></p>
-  </article><article class="card" data-bank="cimb" data-kind="fees" data-title="cimb e credit card annual fee cut to rm80 cimb bank cimb e credit card">
-    <p class="meta"><span class="dot"></span>CIMB · Fees</p>
-    <h2>CIMB e Credit Card annual fee cut to RM80</h2>
-    <p class="when">In force since 1 Jan 2026</p>
-    <p>From 1 January 2026 the principal annual fee is RM80, down from RM100. New and existing principal cardholders get a full waiver for 2026 with no spend. From 1 January 2027 the waiver needs RM6,000 total annual spend. Redeeming the fee with Bonus Points drops to 40,000 points for the full RM80, or 20,000 for half.</p>
-    <dl><div class="change">
-        <dt>Principal annual fee</dt>
-        <dd class="muted">Before: RM100</dd>
-        <dd>Now: RM80</dd>
-      </div><div class="change">
-        <dt>Waiver in 2026</dt>
-        <dd class="muted">Before: Spend-based</dd>
-        <dd>Now: Full waiver, no spend, through 31 December 2026</dd>
-      </div><div class="change">
-        <dt>Waiver from 2027</dt>
-        <dd class="muted">Before: —</dd>
-        <dd>Now: RM6,000 total annual spend</dd>
-      </div><div class="change">
-        <dt>Points for 100% of the fee</dt>
-        <dd class="muted">Before: 50,000 Bonus Points</dd>
-        <dd>Now: 40,000 Bonus Points</dd>
-      </div><div class="change">
-        <dt>Points for 50% of the fee</dt>
-        <dd class="muted">Before: 25,000 Bonus Points</dd>
-        <dd>Now: 20,000 Bonus Points</dd>
-      </div></dl>
-    <p class="muted">Touches: CIMB e Credit Card</p>
-    <p><a class="go" href="https://www.cimb.com.my/en/personal/important-notices/2025/revision-e-credit-card-annual-fee.html" rel="noreferrer">CIMB important notice, 8 December 2025</a></p>
-  </article><article class="card" data-bank="ambank" data-kind="points" data-title="visa infinite enrich conversion needs 12,000 ambonus points ambank &amp; ambank islamic ambank visa infinite ambank islamic visa infinite">
-    <p class="meta"><span class="dot"></span>AmBank · Points</p>
-    <h2>Visa Infinite Enrich conversion needs 12,000 AmBonus Points</h2>
-    <p class="when">In force since 1 Apr 2026</p>
-    <p>Notice dated 2 March 2026. The old rewards catalogue closed on 31 March 2026. From 1 April 2026 both AmBank Visa Infinite and AmBank Islamic Visa Infinite need 12,000 AmBonus Points for 1,000 Enrich Points, up from 10,000. The same notice moves World Mastercard from 12,000 to 18,000 and several Platinum, Signature and Gold cards from 15,000 to 18,000.</p>
-    <dl><div class="change">
-        <dt>Visa Infinite and Islamic Visa Infinite</dt>
-        <dd class="muted">Before: 10,000 AmBonus Points = 1,000 Enrich Points</dd>
-        <dd>Now: 12,000 AmBonus Points = 1,000 Enrich Points</dd>
-      </div></dl>
-    <p class="muted">Touches: AmBank Visa Infinite, AmBank Islamic Visa Infinite</p>
-    <p><a class="go" href="https://www.ambank.com.my/announcements/2026/ambonus-points-reward-catalogue-update-and-revision-of-enrich-point-conversion-rates" rel="noreferrer">AmBank announcement, 2 March 2026</a></p>
-  </article><article class="card" data-bank="ambank" data-kind="fees" data-title="credit card fees revised from 1 july 2026 ambank &amp; ambank islamic ambank visa infinite ambank islamic visa infinite">
-    <p class="meta"><span class="dot"></span>AmBank · Fees</p>
-    <h2>Credit card fees revised from 1 July 2026</h2>
-    <p class="when">In force since 1 Jul 2026</p>
-    <p>Portfolio notice. Excess-limit and replacement fees fell. A printed statement doubled. Conventional cards, including Visa Infinite, moved to a 1.3% cash-advance fee plus SST, with no RM50 minimum. Islamic cards, including Islamic Visa Infinite, moved to a flat RM16 plus SST, up from RM12. Visa Infinite was not in the annual-fee table, which cut fees on BonusLink Platinum, M-Card and a UnionPay supplementary.</p>
-    <dl><div class="change">
-        <dt>Excess limit</dt>
-        <dd class="muted">Before: RM9 + 8% SST</dd>
-        <dd>Now: RM6 + 8% SST</dd>
-      </div><div class="change">
-        <dt>Card replacement</dt>
-        <dd class="muted">Before: RM25 + 8% SST</dd>
-        <dd>Now: RM12 + 8% SST</dd>
-      </div><div class="change">
-        <dt>Printed statement</dt>
-        <dd class="muted">Before: RM12 + SST a year</dd>
-        <dd>Now: RM24 + SST a year. eStatement stays free</dd>
-      </div><div class="change">
-        <dt>Cash advance, conventional Visa Infinite</dt>
-        <dd class="muted">Before: 5% or RM50 minimum, + SST</dd>
-        <dd>Now: 1.3% + SST</dd>
-      </div><div class="change">
-        <dt>Cash advance, Islamic Visa Infinite</dt>
-        <dd class="muted">Before: RM12 + SST</dd>
-        <dd>Now: RM16 + SST</dd>
-      </div></dl>
-    <p class="muted">Touches: AmBank Visa Infinite, AmBank Islamic Visa Infinite</p>
-    <p><a class="go" href="https://www.ambank.com.my/announcements/2026/revision-of-credit-card-i-fees-and-charges" rel="noreferrer">AmBank announcement, effective 1 July 2026</a></p>
-  </article><article class="card" data-bank="hlb" data-kind="points" data-title="visa infinite enrich rates rebuilt by category hong leong bank hong leong visa infinite">
-    <p class="meta"><span class="dot"></span>Hong Leong · Points</p>
-    <h2>Visa Infinite Enrich rates rebuilt by category</h2>
-    <p class="when">In force since 22 May 2025</p>
-    <p>Notice dated 30 April 2025, in force 22 May 2025, for Visa Infinite and Infinite Doctor’s Edition (Infinite P has its own table). The old flat rate was RM3.50 local and RM2.20 overseas per Enrich Point. Dining improved. Travel, retail and everything else got worse, and overseas no longer earns faster than local. Annual fee stayed free for life. Government, JomPay, FPX, HLB Connect QR, cash advance, quasi-cash, Quick Cash, flexi plans, balance transfer, DuitNow AutoDebit, and fees do not earn.</p>
-    <dl><div class="change">
-        <dt>Local, all retail</dt>
-        <dd class="muted">Before: RM3.50 = 1 Enrich Point</dd>
-        <dd>Now: See categories</dd>
-      </div><div class="change">
-        <dt>Overseas, all retail</dt>
-        <dd class="muted">Before: RM2.20 = 1 Enrich Point</dd>
-        <dd>Now: Same rate as local, by category</dd>
-      </div><div class="change">
-        <dt>Dining</dt>
-        <dd class="muted">Before: Flat rate above</dd>
-        <dd>Now: RM1 = 1 point, local and overseas</dd>
-      </div><div class="change">
-        <dt>Travel</dt>
-        <dd class="muted">Before: Flat rate above</dd>
-        <dd>Now: RM4 = 1 point</dd>
-      </div><div class="change">
-        <dt>Retail shopping</dt>
-        <dd class="muted">Before: Flat rate above</dd>
-        <dd>Now: RM4 = 1 point</dd>
-      </div><div class="change">
-        <dt>Other eligible spend</dt>
-        <dd class="muted">Before: Flat rate above</dd>
-        <dd>Now: RM6 = 1 point</dd>
-      </div></dl>
-    <p class="muted">Touches: Hong Leong Visa Infinite</p>
-    <p><a class="go" href="https://www.hlb.com.my/en/personal-banking/news-updates/hlb-visa-infinite-credit-cards-revisions-may-2025.html" rel="noreferrer">Hong Leong notice, 30 April 2025</a></p>
-  </article><article class="card" data-bank="hsbc" data-kind="fees" data-title="mpower platinum fee waiver is now rm6,000 a year hsbc amanah hsbc amanah mpower platinum">
-    <p class="meta"><span class="dot"></span>HSBC Amanah · Fees</p>
-    <h2>MPower Platinum fee waiver is now RM6,000 a year</h2>
-    <p class="when">In force since 1 Sept 2025</p>
-    <p>From 1 September 2025 the MPower Platinum waiver no longer needs a monthly transaction. It needs RM6,000 retail spend a year. The fee itself did not change. If the anniversary fell in September–December 2025, the old rule still applied that year and the new one starts September 2026. January–August 2026 anniversaries were prorated from 1 October 2025 (RM500 per month counted). From September 2026 everyone is on the full RM6,000. Cash advances, most instalments, fees, disputes and taxes do not count. HSBC says it SMSes you if the fee is waived.</p>
-    <dl><div class="change">
-        <dt>Waiver</dt>
-        <dd class="muted">Before: RM2,000 a year, and at least one spend in each of 12 straight months</dd>
-        <dd>Now: RM6,000 a year. No monthly-swipe rule</dd>
-      </div><div class="change">
-        <dt>2026 anniversary, Jan–Aug</dt>
-        <dd class="muted">Before: Old rule</dd>
-        <dd>Now: Prorated RM6,000 from 1 October 2025 to the anniversary month</dd>
-      </div></dl>
-    <p class="muted">Touches: HSBC Amanah MPower Platinum</p>
-    <p><a class="go" href="https://www.hsbcamanah.com.my/content/dam/hsbc/hbms/documents/help/important-information/customer-notice-new-afw-criteria-vs-and-plat.pdf" rel="noreferrer">HSBC Amanah customer notice, 1 September 2025</a></p>
-  </article><article class="card" data-bank="hsbc" data-kind="fees" data-title="mpower platinum cash advance is rm8.70 a transaction hsbc amanah hsbc amanah mpower platinum">
-    <p class="meta"><span class="dot"></span>HSBC Amanah · Fees</p>
-    <h2>MPower Platinum cash advance is RM8.70 a transaction</h2>
-    <p class="when">In force since 2 Mar 2026</p>
-    <p>Notice dated 6 February 2026. For MPower Platinum the previous charge was RM50 per RM1,000 advanced, and that charge was waived until 1 March 2026. The revised column on the same notice is a single figure, RM8.70 per transaction, set beside both the HSBC Bank list and the HSBC Amanah list.</p>
-    <dl><div class="change">
-        <dt>Cash advance</dt>
-        <dd class="muted">Before: RM50 per RM1,000, waived until 1 March 2026</dd>
-        <dd>Now: RM8.70 per transaction from 2 March 2026</dd>
-      </div></dl>
-    <p class="muted">Touches: HSBC Amanah MPower Platinum</p>
-    <p><a class="go" href="https://www.hsbcamanah.com.my/content/dam/hsbc/hbms/documents/help/important-information/credit-card-i-cash-advance-fee-revision-effective-2-march-2026.pdf" rel="noreferrer">HSBC Amanah cash-advance notice, 6 February 2026</a></p>
-  </article><article class="card" data-bank="hsbc" data-kind="product" data-title="mpower platinum contract moved from ujrah to tawarruq hsbc amanah hsbc amanah mpower platinum">
-    <p class="meta"><span class="dot"></span>HSBC Amanah · Product</p>
-    <h2>MPower Platinum contract moved from Ujrah to Tawarruq</h2>
-    <p class="when">In force since 9 Dec 2025</p>
-    <p>HSBC Amanah changed the Shariah contract on MPower Platinum, MPower, and Premier World Mastercard from Ujrah to Tawarruq (commodity murabahah) on 9 December 2025. The opt-out window — SMS OPTOUT1 and a full settlement by 3 December 2025 — has closed. The FAQ is the plain-language note; the customer notice is the formal one.</p>
-    <dl><div class="change">
-        <dt>Shariah contract</dt>
-        <dd class="muted">Before: Ujrah</dd>
-        <dd>Now: Tawarruq, from 9 December 2025</dd>
-      </div></dl>
-    <p class="muted">Touches: HSBC Amanah MPower Platinum</p>
-    <p><a class="go" href="https://www.hsbcamanah.com.my/content/dam/hsbc/hbms/documents/new-shariah-concept-for-credit-card-i-faq.pdf" rel="noreferrer">HSBC Amanah Shariah-concept FAQ</a></p>
-  </article><article class="card" data-bank="hsbc" data-kind="product" data-title="daily contactless limit raised to rm2,500 hsbc amanah hsbc amanah mpower platinum">
-    <p class="meta"><span class="dot"></span>HSBC Amanah · Product</p>
-    <h2>Daily contactless limit raised to RM2,500</h2>
-    <p class="when">In force since 1 May 2026</p>
-    <p>From 1 May 2026 the daily contactless limit on HSBC and HSBC Amanah credit cards, for purchases above RM250, moved from RM1,500 to RM2,500. Each contactless transaction still cannot exceed RM2,500. Above the daily limit you need the physical card, chip and PIN. The notice says no action is required.</p>
-    <dl><div class="change">
-        <dt>Daily contactless limit</dt>
-        <dd class="muted">Before: RM1,500</dd>
-        <dd>Now: RM2,500</dd>
-      </div></dl>
-    <p class="muted">Touches: HSBC Amanah MPower Platinum</p>
-    <p><a class="go" href="https://www.hsbcamanah.com.my/content/dam/hsbc/hbms/documents/updates-to-daily-contactless-limit-for-hsbc-credit-cards.pdf" rel="noreferrer">HSBC / HSBC Amanah contactless notice</a></p>
-  </article><article class="card" data-bank="affin" data-kind="benefits" data-title="duo+ cashback capped at rm250 a tap, and rounding is cut off affin bank affin duo affin duo+">
-    <p class="meta"><span class="dot"></span>Affin · Benefits</p>
-    <h2>DUO+ cashback capped at RM250 a tap, and rounding is cut off</h2>
-    <p class="when">In force since 30 Jan 2026</p>
-    <p>Posted 9 January 2026 and in force 21 days later. DUO+ Visa cashback is for contactless retail of RM250 and below. Affin can withhold or reverse cashback if you split a bill at the same merchant to stay under that cap. Cashback is calculated per transaction to two decimal places with no rounding — the notice uses Affin DUO Visa as the illustration, so both DUO and DUO+ are in the generic terms. Cards other than Business Platinum are personal use only.</p>
-    <dl><div class="change">
-        <dt>DUO+ Visa cashback</dt>
-        <dd class="muted">Before: Not spelled out this way</dd>
-        <dd>Now: Contactless retail of RM250 and below. Split bills can be reversed</dd>
-      </div><div class="change">
-        <dt>Rounding</dt>
-        <dd class="muted">Before: Not spelled out</dd>
-        <dd>Now: Two decimals, no round up or down. RM600.70 at 3% credits RM18.02</dd>
-      </div></dl>
-    <p class="muted">Touches: Affin DUO, Affin DUO+</p>
-    <p><a class="go" href="https://www.affinalways.com/en/announcements/ANNOUNCEMENT%20ON%20ADDITIONAL%20CLAUSES%20FOR%20GENERIC%20AFFIN%20CREDIT%20CARDS%20TERMS%20AND%20CONDITIONS" rel="noreferrer">Affin announcement, 9 January 2026</a></p>
-  </article><article class="card" data-bank="affin" data-kind="points" data-title="duo and duo+ airmiles conversion worsened on 1 april 2025 affin bank affin duo affin duo+">
-    <p class="meta"><span class="dot"></span>Affin · Points</p>
-    <h2>DUO and DUO+ airmiles conversion worsened on 1 April 2025</h2>
-    <p class="when">In force since 1 Apr 2025</p>
-    <p>Affin’s FAQ groups DUO and DUO+ with Avance, MPN and several other cards. For that group the rate from 1 April 2025 is 20,000 Affin Rewards Points for 1,000 Enrich, 1,000 AirAsia, or 10 Batik Air points. The FAQ lists the earlier Enrich rate for the group as 14,000 points, and 12,000 points for 1,000 AirAsia or 10 Batik Air points. Invikta and World cards are separate rows. Open the FAQ before you transfer.</p>
-    <dl><div class="change">
-        <dt>Enrich, DUO and DUO+ group</dt>
-        <dd class="muted">Before: 14,000 points = 1,000 Enrich</dd>
-        <dd>Now: 20,000 points = 1,000 Enrich</dd>
-      </div><div class="change">
-        <dt>AirAsia / Batik, same group</dt>
-        <dd class="muted">Before: 12,000 points = 1,000 AirAsia, or 10 Batik Air points</dd>
-        <dd>Now: 20,000 points for the same</dd>
-      </div></dl>
-    <p class="muted">Touches: Affin DUO, Affin DUO+</p>
-    <p><a class="go" href="https://www.affinalways.com/storage/FAQs/Final-FAQ-Revision-of-Airmiles-Points-Conversion-Rate-in-the-AFFIN-Rewards-Programme-ENG.pdf" rel="noreferrer">Affin Rewards FAQ, effective 1 April 2025</a></p>
-  </article><article class="card" data-bank="ocbc" data-kind="points" data-title="titanium blue left cashback and moved to ocbc$ ocbc bank malaysia ocbc titanium mastercard blue">
-    <p class="meta"><span class="dot"></span>OCBC · Points</p>
-    <h2>Titanium Blue left cashback and moved to OCBC$</h2>
-    <p class="when">In force since 20 Oct 2024</p>
-    <p>Notice dated 25 September 2024, in force 20 October 2024, for Titanium Mastercard Blue and Pink. The old online cashback bands (including 7% on a thin slice of e-wallet spend) were replaced by OCBC$. The live product page adds a 20,000 OCBC$ cap per statement cycle on the accelerated rate, then unlimited 1x, and a five-year expiry.</p>
-    <dl><div class="change">
-        <dt>Online &amp; e-wallet, up to RM1,000</dt>
-        <dd class="muted">Before: 0.07% cashback</dd>
-        <dd>Now: 12x OCBC$ on Double Date and Pay Day; 6x on other days</dd>
-      </div><div class="change">
-        <dt>Online &amp; e-wallet, RM1,000–1,500</dt>
-        <dd class="muted">Before: 7% cashback, cap RM20 a month</dd>
-        <dd>Now: Same OCBC$ rates, then 1x after the cycle cap</dd>
-      </div><div class="change">
-        <dt>Other retail</dt>
-        <dd class="muted">Before: 0.1% cashback</dd>
-        <dd>Now: 1x OCBC$, unlimited</dd>
-      </div><div class="change">
-        <dt>Principal annual fee</dt>
-        <dd class="muted">Before: In the old feature set</dd>
-        <dd>Now: RM75. First year waived through 31 December 2026 on the product page; later years need RM20,000</dd>
-      </div></dl>
-    <p class="muted">Touches: OCBC Titanium Mastercard Blue</p>
-    <p><a class="go" href="https://www.ocbc.com.my/iwov-resources/my/ocbc/personal/pdf/cards/general/Revision_Titanium_Mastercard.pdf" rel="noreferrer">OCBC Titanium revision notice, 25 September 2024</a></p>
-  </article><article class="card" data-bank="ocbc" data-kind="product" data-title="ocbc daily contactless limit is rm3,000 ocbc bank malaysia ocbc titanium mastercard blue">
-    <p class="meta"><span class="dot"></span>OCBC · Product</p>
-    <h2>OCBC daily contactless limit is RM3,000</h2>
-    <p class="when">In force since 3 Aug 2026</p>
-    <p>Notice dated 8 July 2026. From 3 August 2026 every OCBC credit card, including Titanium Blue, has a daily cumulative contactless limit of RM3,000, up from RM1,000. A single contactless charge without PIN is still capped at RM250. You can set the daily limit from RM1,000 to RM5,000 via the contact centre or a branch. A PIN transaction refreshes the cumulative limit.</p>
-    <dl><div class="change">
-        <dt>Daily cumulative contactless</dt>
-        <dd class="muted">Before: RM1,000</dd>
-        <dd>Now: RM3,000 default. Choosable from RM1,000 to RM5,000</dd>
-      </div><div class="change">
-        <dt>Single tap without PIN</dt>
-        <dd class="muted">Before: RM250</dd>
-        <dd>Now: RM250, unchanged</dd>
-      </div></dl>
-    <p class="muted">Touches: OCBC Titanium Mastercard Blue</p>
-    <p><a class="go" href="https://www.ocbc.com.my/iwov-resources/my/ocbc/personal/pdf/notices/Announcement-for-Contactless-Cumulative-Limit-Credit-Card.pdf" rel="noreferrer">OCBC notice, 8 July 2026</a></p>
-  </article><article class="card" data-bank="maybank" data-kind="terms" data-title="maybank 2 gold can claw back cashback and treatspoints on a refund maybank &amp; maybank islamic maybank 2 gold">
-    <p class="meta"><span class="dot"></span>Maybank · Terms · Press</p>
-    <h2>Maybank 2 Gold can claw back cashback and TreatsPoints on a refund</h2>
-    <p class="when">In force since 6 Jan 2026</p>
-    <p>RinggitPlus reported that Maybank revised the 2 Gold and 2 Platinum terms from 6 January 2026. Earn rates did not change. The new wording says cashback and TreatsPoints on a refunded or reversed purchase can be taken back, in full or in part, even if the reward had not posted yet, and even if the reversal comes much later. This item is a press report. Confirm it against Maybank’s own terms before you rely on it.</p>
-    <dl><div class="change">
-        <dt>Earn rate</dt>
-        <dd class="muted">Before: Unchanged</dd>
-        <dd>Now: Unchanged</dd>
-      </div><div class="change">
-        <dt>Refunds and reversals</dt>
-        <dd class="muted">Before: Narrower clawback wording</dd>
-        <dd>Now: Rewards may be reversed on a full or partial refund, whenever it posts</dd>
-      </div></dl>
-    <p class="muted">Touches: Maybank 2 Gold</p>
-    <p><a class="go" href="https://ringgitplus.com/en/blog/credit-card-news/maybank-2-cards-update-cashback-and-treatspoints-terms.html" rel="noreferrer">RinggitPlus, 14 January 2026 — confirm on Maybank</a></p>
-  </article><article class="card" data-bank="maybank" data-kind="points" data-title="ikhwan american express miles rate in force since 22 may 2024 maybank &amp; maybank islamic maybank islamic ikhwan american express">
-    <p class="meta"><span class="dot"></span>Maybank · Points</p>
-    <h2>Ikhwan American Express miles rate in force since 22 May 2024</h2>
-    <p class="when">In force since 22 May 2024</p>
-    <p>The Maybank Islamic Ikhwan Gold page still prints this notice: from 22 May 2024, Maybank American Express, Mastercard, and Visa Gold &amp; Platinum convert at 20,000 TreatsPoints = 1,000 Enrich, KrisFlyer or Asia Miles, up from 14,000. It is an old change, and it is the rate the product page is still showing. Visa Infinite is a different table and is not this card.</p>
-    <dl><div class="change">
-        <dt>Air miles, Gold &amp; Platinum including American Express</dt>
-        <dd class="muted">Before: 14,000 TreatsPoints = 1,000 miles</dd>
-        <dd>Now: 20,000 TreatsPoints = 1,000 miles</dd>
-      </div></dl>
-    <p class="muted">Touches: Maybank Islamic Ikhwan American Express</p>
-    <p><a class="go" href="https://www.maybank2u.com.my/maybank2u/malaysia/en/personal/cards/credit/islamic_mastercard_ikhwan_gold_card.page" rel="noreferrer">Maybank Islamic Ikhwan Gold page</a></p>
-  </article><article class="card" data-bank="hlb" data-kind="terms" data-title="hong leong credit-card terms revised from 14 may 2026 hong leong bank hong leong visa infinite">
-    <p class="meta"><span class="dot"></span>Hong Leong · Terms</p>
-    <h2>Hong Leong credit-card terms revised from 14 May 2026</h2>
-    <p class="when">In force since 14 May 2026</p>
-    <p>Notice dated 23 April 2026. Revised terms for Infinite P, Infinite, Infinite Doctor’s Edition and several other Hong Leong cards took effect on 14 May 2026. The news post links the new documents and does not itself spell a new earn rate — the May 2025 Enrich table is the rate change. Read the Infinite terms if a privilege you use is contractual.</p>
-    
-    <p class="muted">Touches: Hong Leong Visa Infinite</p>
-    <p><a class="go" href="https://www.hlb.com.my/en/personal-banking/news-updates/hlb-revision-of-terms-and-conditions-for-hlb-credit-cards.html" rel="noreferrer">Hong Leong news, 23 April 2026</a></p>
-  </article><article class="card" data-bank="ambank" data-kind="terms" data-title="ambank cardholder agreements revised from 30 september 2025 ambank &amp; ambank islamic ambank visa infinite ambank islamic visa infinite">
-    <p class="meta"><span class="dot"></span>AmBank · Terms</p>
-    <h2>AmBank cardholder agreements revised from 30 September 2025</h2>
-    <p class="when">In force since 30 Sept 2025</p>
-    <p>Notice dated 8 September 2025. The conventional and Islamic cardholder agreements, plus a long list of programme terms, took effect on 30 September 2025. The introduction does not itself publish a new miles rate — that is the April 2026 Enrich notice. This one is the contract refresh underneath both Visa Infinite cards.</p>
-    
-    <p class="muted">Touches: AmBank Visa Infinite, AmBank Islamic Visa Infinite</p>
-    <p><a class="go" href="https://www.ambank.com.my/announcements/2025/revision-of-the-ambank-ambank-islamic-credit-card--i-terms-and-conditions-(september-2025)" rel="noreferrer">AmBank announcement, 8 September 2025</a></p>
-  </article><article class="card" data-bank="alliance" data-kind="benefits" data-title="august 2025 features revision left platinum virtual alone alliance bank alliance bank virtual visa">
-    <p class="meta"><span class="dot"></span>Alliance · Benefits</p>
-    <h2>August 2025 features revision left Platinum Virtual alone</h2>
-    <p class="when">In force since 1 Aug 2025</p>
-    <p>From 1 August 2025 Alliance rewrote Timeless Bonus Points and some annual fees on Visa Platinum and Visa Infinite. In the same notice Alliance said there are no changes to the features of the Visa Platinum Virtual Credit Card. If your virtual Visa is that product, this revision is a non-event. If it is a different virtual card, read the Infinite and Platinum tables before assuming you were spared.</p>
-    <dl><div class="change">
-        <dt>Visa Platinum Virtual features</dt>
-        <dd class="muted">Before: Unchanged, per Alliance</dd>
-        <dd>Now: Unchanged</dd>
-      </div></dl>
-    <p class="muted">Touches: Alliance Bank Virtual Visa</p>
-    <p><a class="go" href="https://www.alliancebank.com.my/about-us/Media-Centre/Revision-to-Alliance-Bank-Credit-Card-Product-Features-and-Fees-Charges" rel="noreferrer">Alliance media centre, 11 July 2025</a></p>
-  </article><article class="card" data-bank="alliance" data-kind="points" data-title="alliance bonus points now expire after three years alliance bank alliance bank virtual visa">
-    <p class="meta"><span class="dot"></span>Alliance · Points</p>
-    <h2>Alliance bonus points now expire after three years</h2>
-    <p class="when">In force since 1 Dec 2025</p>
-    <p>Notice dated 10 November 2025, in force 1 December 2025. Timeless Bonus Points were renamed Three-year Bonus Points. The abbreviation stays TBP. Points no longer last forever: anything earned before 1 December 2025 expires on 30 November 2028, and points earned after that last until the end of the third year from the month they were earned. Enrich and AirAsia redemptions must be in blocks of 5,000 miles (75,000 TBP for 5,000 Enrich, 30,000 TBP for 5,000 AirAsia). The August 2025 features notice left Visa Platinum Virtual earn rates alone. This later notice is about the points balance itself. If your virtual Visa earns TBP, the expiry applies.</p>
-    <dl><div class="change">
-        <dt>Name</dt>
-        <dd class="muted">Before: Timeless Bonus Points</dd>
-        <dd>Now: Three-year Bonus Points (still TBP)</dd>
-      </div><div class="change">
-        <dt>Expiry</dt>
-        <dd class="muted">Before: None</dd>
-        <dd>Now: Three years. Pre-December 2025 points expire 30 November 2028</dd>
-      </div><div class="change">
-        <dt>Air miles blocks</dt>
-        <dd class="muted">Before: Smaller conversions were published</dd>
-        <dd>Now: Multiples of 5,000 Enrich or AirAsia points only</dd>
-      </div></dl>
-    <p class="muted">Touches: Alliance Bank Virtual Visa</p>
-    <p><a class="go" href="https://www.alliancebank.com.my/about-us/Media-Centre/Revision-to-Alliance-Bank-Bonus-Points-and-Air-Miles-Redemption" rel="noreferrer">Alliance media centre, 10 November 2025</a></p>
-  </article><article class="card" data-bank="alliance" data-kind="terms" data-title="visa and mastercard cardholder agreement revised alliance bank alliance bank virtual visa">
-    <p class="meta"><span class="dot"></span>Alliance · Terms</p>
-    <h2>Visa and Mastercard cardholder agreement revised</h2>
-    <p class="when">In force since 1 Dec 2025</p>
-    <p>From 1 December 2025 the Alliance Bank Visa/Mastercard Credit Cardholder Agreement was revised under the Fair Treatment of Financial Consumers policy. It applies to Visa and Mastercard cardholders, which includes a virtual Visa. The notice points at the PDF rather than listing fee or points changes.</p>
-    
-    <p class="muted">Touches: Alliance Bank Virtual Visa</p>
-    <p><a class="go" href="https://www.alliancebank.com.my/about-us/Media-Centre/revision-of-alliance-bank-credit-cardholder-agreement" rel="noreferrer">Alliance media centre, 1 December 2025</a></p>
-  </article>
-    </section>
-    <section>
-      <h2>Banks</h2>
-      <p class="muted">These are the pages the Monday job opens. A new link is only listed above when the title looks like a card notice.</p>
-      <article class="card">
-      <h2>Maybank</h2>
-      <p class="muted">Maybank 2 Gold · Maybank Islamic Ikhwan American Express</p>
-      <p>Check failed 5 Oct 2026</p>
-      <p><a class="go" href="https://www.maybank2u.com.my/maybank2u/malaysia/en/personal/announcements.page" rel="noreferrer">Maybank announcements</a></p>
-    </article><article class="card">
-      <h2>CIMB</h2>
-      <p class="muted">CIMB PETRONAS Visa Infinite · CIMB e Credit Card · CIMB Travel Platinum · CIMB Travel World</p>
-      <p>Checked 5 Oct 2026 · 0 new links</p>
-      <p><a class="go" href="https://www.cimb.com.my/en/personal/important-notices.html" rel="noreferrer">CIMB important notices</a></p>
-    </article><article class="card">
-      <h2>Hong Leong</h2>
-      <p class="muted">Hong Leong Visa Infinite</p>
-      <p>Checked 5 Oct 2026 · 0 new links</p>
-      <p><a class="go" href="https://www.hlb.com.my/en/personal-banking/news-updates.html" rel="noreferrer">Hong Leong news &amp; updates</a></p>
-    </article><article class="card">
-      <h2>OCBC</h2>
-      <p class="muted">OCBC Titanium Mastercard Blue</p>
-      <p>Check failed 5 Oct 2026</p>
-      <p><a class="go" href="https://www.ocbc.com.my/personal-banking/cards" rel="noreferrer">OCBC cards</a></p>
-    </article><article class="card">
-      <h2>AmBank</h2>
-      <p class="muted">AmBank Visa Infinite · AmBank Islamic Visa Infinite</p>
-      <p>Checked 5 Oct 2026 · 0 new links</p>
-      <p><a class="go" href="https://www.ambank.com.my/announcements" rel="noreferrer">AmBank announcements</a></p>
-    </article><article class="card">
-      <h2>HSBC Amanah</h2>
-      <p class="muted">HSBC Amanah MPower Platinum</p>
-      <p>Checked 5 Oct 2026 · 0 new links</p>
-      <p><a class="go" href="https://www.hsbcamanah.com.my/help/important-information/" rel="noreferrer">HSBC Amanah important notices</a></p>
-    </article><article class="card">
-      <h2>Alliance</h2>
-      <p class="muted">Alliance Bank Virtual Visa</p>
-      <p>Checked 5 Oct 2026 · 0 new links</p>
-      <p><a class="go" href="https://www.alliancebank.com.my/about-us/Media-Centre" rel="noreferrer">Alliance media centre</a></p>
-    </article><article class="card">
-      <h2>Affin</h2>
-      <p class="muted">Affin DUO · Affin DUO+</p>
-      <p>Checked 5 Oct 2026 · 0 new links</p>
-      <p><a class="go" href="https://www.affinalways.com/en/announcements" rel="noreferrer">Affin announcements</a></p>
-    </article><article class="card">
-      <h2>AEON</h2>
-      <p class="muted">AEON Biker Infinite Visa</p>
-      <p>Checked 5 Oct 2026 · 0 new links</p>
-      <p><a class="go" href="https://myaeoncredit.com.my/aeon-cards/aeon-biker-infinite-visa-card/" rel="noreferrer">AEON Biker Infinite page</a></p>
-    </article><article class="card">
-      <h2>Public Bank</h2>
-      <p class="muted">No card in your wallet. Watched for issuer notices.</p>
-      <p>Checked 5 Oct 2026 · 0 new links</p>
-      <p><a class="go" href="https://www.pbebank.com/en/personal-banking/announcements/" rel="noreferrer">Public Bank announcements</a></p>
-    </article><article class="card">
-      <h2>RHB</h2>
-      <p class="muted">No card in your wallet. Watched for issuer notices.</p>
-      <p>Checked 5 Oct 2026 · 0 new links</p>
-      <p><a class="go" href="https://www.rhbgroup.com/others/highlights/index.html" rel="noreferrer">RHB highlights</a></p>
-    </article><article class="card">
-      <h2>UOB</h2>
-      <p class="muted">No card in your wallet. Watched for issuer notices.</p>
-      <p>Checked 5 Oct 2026 · 0 new links</p>
-      <p><a class="go" href="https://www.uob.com.my/personal/announcement.page" rel="noreferrer">UOB announcements</a></p>
-    </article><article class="card">
-      <h2>Standard Chartered</h2>
-      <p class="muted">No card in your wallet. Watched for issuer notices.</p>
-      <p>Checked 5 Oct 2026 · 0 new links</p>
-      <p><a class="go" href="https://www.sc.com/my/important-information/" rel="noreferrer">Standard Chartered important information</a></p>
-    </article><article class="card">
-      <h2>HSBC Bank</h2>
-      <p class="muted">No card in your wallet. Watched for issuer notices.</p>
-      <p>Checked 5 Oct 2026 · 0 new links</p>
-      <p><a class="go" href="https://www.hsbc.com.my/help/important-information/" rel="noreferrer">HSBC Bank important notices</a></p>
-    </article><article class="card">
-      <h2>Bank Islam</h2>
-      <p class="muted">No card in your wallet. Watched for issuer notices.</p>
-      <p>Check failed 5 Oct 2026</p>
-      <p><a class="go" href="https://www.bankislam.com/announcement/" rel="noreferrer">Bank Islam announcements</a></p>
-    </article><article class="card">
-      <h2>Muamalat</h2>
-      <p class="muted">No card in your wallet. Watched for issuer notices.</p>
-      <p>Checked 5 Oct 2026 · 0 new links</p>
-      <p><a class="go" href="https://www.muamalat.com.my/publications/announcements/" rel="noreferrer">Bank Muamalat announcements</a></p>
-    </article><article class="card">
-      <h2>Bank Rakyat</h2>
-      <p class="muted">No card in your wallet. Watched for issuer notices.</p>
-      <p>Check failed 5 Oct 2026</p>
-      <p><a class="go" href="https://www.bankrakyat.com.my/" rel="noreferrer">Bank Rakyat news</a></p>
-    </article><article class="card">
-      <h2>BSN</h2>
-      <p class="muted">No card in your wallet. Watched for issuer notices.</p>
-      <p>Checked 5 Oct 2026 · 0 new links</p>
-      <p><a class="go" href="https://www.bsn.com.my/IslamicBanking/Cards-i/credit-card-announcement" rel="noreferrer">BSN card announcements</a></p>
-    </article><article class="card">
-      <h2>ICBC</h2>
-      <p class="muted">No card in your wallet. Watched for issuer notices.</p>
-      <p>Checked 5 Oct 2026 · 0 new links</p>
-      <p><a class="go" href="https://malaysia.icbc.com.cn/" rel="noreferrer">ICBC Malaysia notices</a></p>
-    </article>
-    </section>
+    <div id="view"></div>
     <footer>
       <p>Rak does not read email and does not invent a before/after it could not read. Press items are labelled. If a write-up disagrees with the bank page, the bank page wins.</p>
     </footer>
   </main>
+  <nav class="dock" id="dock" aria-label="Sections"></nav>
+  <script id="rak-data" type="application/json">{"library":{"compiledOn":"2026-10-05","kindLabel":{"points":"Points","benefits":"Benefits","fees":"Fees","terms":"Terms","product":"Product"},"banks":[{"id":"maybank","name":"Maybank & Maybank Islamic","short":"Maybank","hubLabel":"Maybank announcements","hubUrl":"https://www.maybank2u.com.my/maybank2u/malaysia/en/personal/announcements.page"},{"id":"cimb","name":"CIMB Bank","short":"CIMB","hubLabel":"CIMB important notices","hubUrl":"https://www.cimb.com.my/en/personal/important-notices.html"},{"id":"hlb","name":"Hong Leong Bank","short":"Hong Leong","hubLabel":"Hong Leong news & updates","hubUrl":"https://www.hlb.com.my/en/personal-banking/news-updates.html"},{"id":"ocbc","name":"OCBC Bank Malaysia","short":"OCBC","hubLabel":"OCBC cards","hubUrl":"https://www.ocbc.com.my/personal-banking/cards"},{"id":"ambank","name":"AmBank & AmBank Islamic","short":"AmBank","hubLabel":"AmBank announcements","hubUrl":"https://www.ambank.com.my/announcements"},{"id":"hsbc","name":"HSBC Amanah","short":"HSBC Amanah","hubLabel":"HSBC Amanah important notices","hubUrl":"https://www.hsbcamanah.com.my/help/important-information/"},{"id":"alliance","name":"Alliance Bank","short":"Alliance","hubLabel":"Alliance media centre","hubUrl":"https://www.alliancebank.com.my/about-us/Media-Centre"},{"id":"affin","name":"Affin Bank","short":"Affin","hubLabel":"Affin announcements","hubUrl":"https://www.affinalways.com/en/announcements"},{"id":"aeon","name":"AEON Credit","short":"AEON","hubLabel":"AEON Biker Infinite page","hubUrl":"https://myaeoncredit.com.my/aeon-cards/aeon-biker-infinite-visa-card/"},{"id":"public","name":"Public Bank & Public Islamic","short":"Public Bank","hubLabel":"Public Bank announcements","hubUrl":"https://www.pbebank.com/en/personal-banking/announcements/"},{"id":"rhb","name":"RHB Bank & RHB Islamic","short":"RHB","hubLabel":"RHB highlights","hubUrl":"https://www.rhbgroup.com/others/highlights/index.html"},{"id":"uob","name":"UOB Malaysia","short":"UOB","hubLabel":"UOB announcements","hubUrl":"https://www.uob.com.my/personal/announcement.page"},{"id":"sc","name":"Standard Chartered","short":"Standard Chartered","hubLabel":"Standard Chartered important information","hubUrl":"https://www.sc.com/my/important-information/"},{"id":"hsbc-my","name":"HSBC Bank Malaysia","short":"HSBC Bank","hubLabel":"HSBC Bank important notices","hubUrl":"https://www.hsbc.com.my/help/important-information/"},{"id":"bankislam","name":"Bank Islam","short":"Bank Islam","hubLabel":"Bank Islam announcements","hubUrl":"https://www.bankislam.com/announcement/"},{"id":"muamalat","name":"Bank Muamalat","short":"Muamalat","hubLabel":"Bank Muamalat announcements","hubUrl":"https://www.muamalat.com.my/publications/announcements/"},{"id":"bankrakyat","name":"Bank Rakyat","short":"Bank Rakyat","hubLabel":"Bank Rakyat news","hubUrl":"https://www.bankrakyat.com.my/"},{"id":"bsn","name":"BSN","short":"BSN","hubLabel":"BSN card announcements","hubUrl":"https://www.bsn.com.my/IslamicBanking/Cards-i/credit-card-announcement"},{"id":"icbc","name":"ICBC Malaysia","short":"ICBC","hubLabel":"ICBC Malaysia notices","hubUrl":"https://malaysia.icbc.com.cn/"}],"cards":[{"id":"mb-2-gold","bankId":"maybank","name":"Maybank 2 Gold","network":"Visa / Mastercard","note":"Cashback and TreatsPoints. Earn rates were not rewritten in the January 2026 terms update; refunds and reversals were."},{"id":"mb-ikhwan-amex","bankId":"maybank","name":"Maybank Islamic Ikhwan American Express","network":"American Express","note":"The Ikhwan Gold page publishes an air-miles conversion that names Maybank American Express, Mastercard, and Visa Gold & Platinum."},{"id":"cimb-petronas","bankId":"cimb","name":"CIMB PETRONAS Visa Infinite","network":"Visa Infinite","note":"Sits on CIMB Bonus Points and the bank-wide cardholder terms, not the Preferred Visa Infinite campaign."},{"id":"cimb-e","bankId":"cimb","name":"CIMB e Credit Card","network":"Visa","note":"Principal annual fee is RM80 from 1 January 2026. 2026 is a full waiver with no spend; 2027 needs RM6,000."},{"id":"cimb-travel-plat","bankId":"cimb","name":"CIMB Travel Platinum","network":"Travel series","note":"Covered by the bank-wide cardholder terms and the Member Rewards airline list. No separate points-rate rewrite was in this library."},{"id":"cimb-travel-world","bankId":"cimb","name":"CIMB Travel World","network":"Mastercard","note":"The 1 October 2026 Travel Card terms restate the principal annual fee at RM554.72, with later-year waiver tiers at RM120,000 (100%) and RM60,000 (50%). That document is a restatement, not a marked before/after."},{"id":"hlb-vi","bankId":"hlb","name":"Hong Leong Visa Infinite","network":"Visa Infinite","note":"Enrich earn rates were rebuilt by category on 22 May 2025. Annual fee stayed free for life."},{"id":"ocbc-ti-blue","bankId":"ocbc","name":"OCBC Titanium Mastercard Blue","network":"Mastercard","note":"Rewards moved off the old cashback bands onto OCBC$ on 20 October 2024. The product page still waives the first-year RM75 fee through 31 December 2026; later years need RM20,000 retail spend."},{"id":"amb-vi","bankId":"ambank","name":"AmBank Visa Infinite","network":"Visa Infinite","note":"Enrich conversion moved from 10,000 to 12,000 AmBonus Points per 1,000 Enrich Points on 1 April 2026. Conventional cash advance became 1.3% plus SST on 1 July 2026."},{"id":"amb-vi-i","bankId":"ambank","name":"AmBank Islamic Visa Infinite","network":"Visa Infinite","note":"Same Enrich conversion as the conventional Visa Infinite. Islamic cash advance became a flat RM16 plus SST on 1 July 2026, up from RM12 plus SST."},{"id":"hsbc-mpower","bankId":"hsbc","name":"HSBC Amanah MPower Platinum","network":"Credit Card-i","note":"Shariah contract moved to Tawarruq on 9 December 2025. Annual-fee waiver is now RM6,000 a year, not the old RM2,000 plus a monthly spend. Cashback categories were rewritten from 1 October 2026."},{"id":"ab-virtual","bankId":"alliance","name":"Alliance Bank Virtual Visa","network":"Visa","note":"If this is the Visa Platinum Virtual, Alliance left its earn rates alone on 1 August 2025. Bank-wide, TBP now expires after three years (pre-Dec 2025 points expire 30 November 2028). The cardholder agreement was revised from 1 December 2025."},{"id":"affin-duo","bankId":"affin","name":"Affin DUO","network":"Visa Cash Back & Mastercard Rewards","note":"Grouped with DUO+ on the April 2025 airmiles conversion. The January 2026 generic terms use DUO Visa as the cashback rounding example."},{"id":"affin-duo-plus","bankId":"affin","name":"Affin DUO+","network":"Visa & Mastercard","note":"DUO+ Visa cashback is for contactless retail of RM250 and below. Splitting a larger bill into smaller taps can be reversed."},{"id":"aeon-biker","bankId":"aeon","name":"AEON Biker Infinite Visa","network":"Visa Infinite","note":"Launched 17 June 2025. The product page still lists 8% cashback on motorcycle parts, merchandise and motor services, 8% on overseas spend, 2% on petrol and insurance, and 8 Plaza Premium visits. No later revision was on the public pages checked for this library."}],"notices":[{"id":"cimb-flying-blue","bankId":"cimb","title":"Flying Blue leaves CIMB Member Rewards on 11 October 2026","published":null,"effective":"2026-10-11","kind":"points","severity":"action","scope":"bank","cardIds":["cimb-petronas","cimb-e","cimb-travel-plat","cimb-travel-world"],"summary":"On the Bonus Points redemption page, CIMB says Air France-KLM Flying Blue stops as an airmiles partner on 11 October 2026. Redemptions need to be in by 10 October 2026. Bonus Points stay usable with the other airline partners.","changes":[{"label":"Flying Blue","before":"Airline partner under Member Rewards","after":"Unavailable from 11 October 2026"},{"label":"Last day to redeem","before":"Open","after":"10 October 2026"}],"sourceLabel":"CIMB Bonus Points redemption","sourceUrl":"https://www.cimb.com.my/en/personal/day-to-day-banking/cards/credit-card/bonus-points-redemption.html","sourceKind":"bank"},{"id":"cimb-tnc-oct","bankId":"cimb","title":"Cardholder terms amended from 16 October 2026","published":"2026-09-25","effective":"2026-10-16","kind":"terms","severity":"action","scope":"bank","cardIds":["cimb-petronas","cimb-e","cimb-travel-plat","cimb-travel-world"],"summary":"Notice dated 25 September 2026. CIMB Bank and CIMB Islamic cardholder terms change on 16 October 2026. The notice says the clause edits are in tables on that page. This desk does not restate clauses it could not read off the page — open the notice itself.","changes":[],"sourceLabel":"CIMB important notice, 25 September 2026","sourceUrl":"https://www.cimb.com.my/en/personal/important-notices/2026/notice-of-amendments-to-cimb-bank-cimb-islamic-bank-cardholder-terms-and-conditions.html","sourceKind":"bank"},{"id":"hsbc-mpower-tnc","bankId":"hsbc","title":"MPower Platinum cashback rules rewritten from 1 October 2026","published":"2026-09-28","effective":"2026-10-01","kind":"benefits","severity":"action","scope":"held","cardIds":["hsbc-mpower"],"summary":"Notice dated 28 September 2026. eWallet top-up no longer includes Samsung Pay; Samsung Pay is now a payment-authorisation channel, and petrol or groceries paid that way count as eWallet. Giant groceries now include GHC Retail. Exclusions are split into base cashback and bonus cashback. A transaction dated in one month but posted after the 7th of the next month counts in the posting month. On a card instalment, only the original purchase counts toward eligible spend — later instalments do not.","changes":[{"label":"eWallet top-up","before":"Samsung Pay, GrabPay, Touch ’n Go, FavePay","after":"GrabPay, Touch ’n Go, FavePay. Samsung Pay is payment authorisation only"},{"label":"Groceries","before":"Giant, Lotus’s, AEON BiG, Mydin","after":"Giant including GHC Retail, Lotus’s, AEON BiG, Mydin"},{"label":"Posting cut-off","before":"Not stated this way","after":"Posted after the 7th of the next month counts in the posting month"}],"sourceLabel":"HSBC Amanah MPower Platinum notice, 28 September 2026","sourceUrl":"https://www.hsbcamanah.com.my/content/dam/hsbc/hbms/documents/hsbc-mpower-platinum-tnc-customer-notice-sept-2026.pdf","sourceKind":"bank"},{"id":"cimb-e-fee","bankId":"cimb","title":"CIMB e Credit Card annual fee cut to RM80","published":"2025-12-08","effective":"2026-01-01","kind":"fees","severity":"watch","scope":"held","cardIds":["cimb-e"],"summary":"From 1 January 2026 the principal annual fee is RM80, down from RM100. New and existing principal cardholders get a full waiver for 2026 with no spend. From 1 January 2027 the waiver needs RM6,000 total annual spend. Redeeming the fee with Bonus Points drops to 40,000 points for the full RM80, or 20,000 for half.","changes":[{"label":"Principal annual fee","before":"RM100","after":"RM80"},{"label":"Waiver in 2026","before":"Spend-based","after":"Full waiver, no spend, through 31 December 2026"},{"label":"Waiver from 2027","before":"—","after":"RM6,000 total annual spend"},{"label":"Points for 100% of the fee","before":"50,000 Bonus Points","after":"40,000 Bonus Points"},{"label":"Points for 50% of the fee","before":"25,000 Bonus Points","after":"20,000 Bonus Points"}],"sourceLabel":"CIMB important notice, 8 December 2025","sourceUrl":"https://www.cimb.com.my/en/personal/important-notices/2025/revision-e-credit-card-annual-fee.html","sourceKind":"bank"},{"id":"amb-enrich","bankId":"ambank","title":"Visa Infinite Enrich conversion needs 12,000 AmBonus Points","published":"2026-03-02","effective":"2026-04-01","kind":"points","severity":"action","scope":"held","cardIds":["amb-vi","amb-vi-i"],"summary":"Notice dated 2 March 2026. The old rewards catalogue closed on 31 March 2026. From 1 April 2026 both AmBank Visa Infinite and AmBank Islamic Visa Infinite need 12,000 AmBonus Points for 1,000 Enrich Points, up from 10,000. The same notice moves World Mastercard from 12,000 to 18,000 and several Platinum, Signature and Gold cards from 15,000 to 18,000.","changes":[{"label":"Visa Infinite and Islamic Visa Infinite","before":"10,000 AmBonus Points = 1,000 Enrich Points","after":"12,000 AmBonus Points = 1,000 Enrich Points"}],"sourceLabel":"AmBank announcement, 2 March 2026","sourceUrl":"https://www.ambank.com.my/announcements/2026/ambonus-points-reward-catalogue-update-and-revision-of-enrich-point-conversion-rates","sourceKind":"bank"},{"id":"amb-fees","bankId":"ambank","title":"Credit card fees revised from 1 July 2026","published":null,"effective":"2026-07-01","kind":"fees","severity":"watch","scope":"bank","cardIds":["amb-vi","amb-vi-i"],"summary":"Portfolio notice. Excess-limit and replacement fees fell. A printed statement doubled. Conventional cards, including Visa Infinite, moved to a 1.3% cash-advance fee plus SST, with no RM50 minimum. Islamic cards, including Islamic Visa Infinite, moved to a flat RM16 plus SST, up from RM12. Visa Infinite was not in the annual-fee table, which cut fees on BonusLink Platinum, M-Card and a UnionPay supplementary.","changes":[{"label":"Excess limit","before":"RM9 + 8% SST","after":"RM6 + 8% SST"},{"label":"Card replacement","before":"RM25 + 8% SST","after":"RM12 + 8% SST"},{"label":"Printed statement","before":"RM12 + SST a year","after":"RM24 + SST a year. eStatement stays free"},{"label":"Cash advance, conventional Visa Infinite","before":"5% or RM50 minimum, + SST","after":"1.3% + SST"},{"label":"Cash advance, Islamic Visa Infinite","before":"RM12 + SST","after":"RM16 + SST"}],"sourceLabel":"AmBank announcement, effective 1 July 2026","sourceUrl":"https://www.ambank.com.my/announcements/2026/revision-of-credit-card-i-fees-and-charges","sourceKind":"bank"},{"id":"hlb-enrich","bankId":"hlb","title":"Visa Infinite Enrich rates rebuilt by category","published":"2025-04-30","effective":"2025-05-22","kind":"points","severity":"action","scope":"held","cardIds":["hlb-vi"],"summary":"Notice dated 30 April 2025, in force 22 May 2025, for Visa Infinite and Infinite Doctor’s Edition (Infinite P has its own table). The old flat rate was RM3.50 local and RM2.20 overseas per Enrich Point. Dining improved. Travel, retail and everything else got worse, and overseas no longer earns faster than local. Annual fee stayed free for life. Government, JomPay, FPX, HLB Connect QR, cash advance, quasi-cash, Quick Cash, flexi plans, balance transfer, DuitNow AutoDebit, and fees do not earn.","changes":[{"label":"Local, all retail","before":"RM3.50 = 1 Enrich Point","after":"See categories"},{"label":"Overseas, all retail","before":"RM2.20 = 1 Enrich Point","after":"Same rate as local, by category"},{"label":"Dining","before":"Flat rate above","after":"RM1 = 1 point, local and overseas"},{"label":"Travel","before":"Flat rate above","after":"RM4 = 1 point"},{"label":"Retail shopping","before":"Flat rate above","after":"RM4 = 1 point"},{"label":"Other eligible spend","before":"Flat rate above","after":"RM6 = 1 point"}],"sourceLabel":"Hong Leong notice, 30 April 2025","sourceUrl":"https://www.hlb.com.my/en/personal-banking/news-updates/hlb-visa-infinite-credit-cards-revisions-may-2025.html","sourceKind":"bank"},{"id":"hsbc-afw","bankId":"hsbc","title":"MPower Platinum fee waiver is now RM6,000 a year","published":"2025-09-01","effective":"2025-09-01","kind":"fees","severity":"action","scope":"held","cardIds":["hsbc-mpower"],"summary":"From 1 September 2025 the MPower Platinum waiver no longer needs a monthly transaction. It needs RM6,000 retail spend a year. The fee itself did not change. If the anniversary fell in September–December 2025, the old rule still applied that year and the new one starts September 2026. January–August 2026 anniversaries were prorated from 1 October 2025 (RM500 per month counted). From September 2026 everyone is on the full RM6,000. Cash advances, most instalments, fees, disputes and taxes do not count. HSBC says it SMSes you if the fee is waived.","changes":[{"label":"Waiver","before":"RM2,000 a year, and at least one spend in each of 12 straight months","after":"RM6,000 a year. No monthly-swipe rule"},{"label":"2026 anniversary, Jan–Aug","before":"Old rule","after":"Prorated RM6,000 from 1 October 2025 to the anniversary month"}],"sourceLabel":"HSBC Amanah customer notice, 1 September 2025","sourceUrl":"https://www.hsbcamanah.com.my/content/dam/hsbc/hbms/documents/help/important-information/customer-notice-new-afw-criteria-vs-and-plat.pdf","sourceKind":"bank"},{"id":"hsbc-cash","bankId":"hsbc","title":"MPower Platinum cash advance is RM8.70 a transaction","published":"2026-02-06","effective":"2026-03-02","kind":"fees","severity":"watch","scope":"held","cardIds":["hsbc-mpower"],"summary":"Notice dated 6 February 2026. For MPower Platinum the previous charge was RM50 per RM1,000 advanced, and that charge was waived until 1 March 2026. The revised column on the same notice is a single figure, RM8.70 per transaction, set beside both the HSBC Bank list and the HSBC Amanah list.","changes":[{"label":"Cash advance","before":"RM50 per RM1,000, waived until 1 March 2026","after":"RM8.70 per transaction from 2 March 2026"}],"sourceLabel":"HSBC Amanah cash-advance notice, 6 February 2026","sourceUrl":"https://www.hsbcamanah.com.my/content/dam/hsbc/hbms/documents/help/important-information/credit-card-i-cash-advance-fee-revision-effective-2-march-2026.pdf","sourceKind":"bank"},{"id":"hsbc-tawarruq","bankId":"hsbc","title":"MPower Platinum contract moved from Ujrah to Tawarruq","published":null,"effective":"2025-12-09","kind":"product","severity":"watch","scope":"held","cardIds":["hsbc-mpower"],"summary":"HSBC Amanah changed the Shariah contract on MPower Platinum, MPower, and Premier World Mastercard from Ujrah to Tawarruq (commodity murabahah) on 9 December 2025. The opt-out window — SMS OPTOUT1 and a full settlement by 3 December 2025 — has closed. The FAQ is the plain-language note; the customer notice is the formal one.","changes":[{"label":"Shariah contract","before":"Ujrah","after":"Tawarruq, from 9 December 2025"}],"sourceLabel":"HSBC Amanah Shariah-concept FAQ","sourceUrl":"https://www.hsbcamanah.com.my/content/dam/hsbc/hbms/documents/new-shariah-concept-for-credit-card-i-faq.pdf","sourceKind":"bank"},{"id":"hsbc-contactless","bankId":"hsbc","title":"Daily contactless limit raised to RM2,500","published":null,"effective":"2026-05-01","kind":"product","severity":"fyi","scope":"held","cardIds":["hsbc-mpower"],"summary":"From 1 May 2026 the daily contactless limit on HSBC and HSBC Amanah credit cards, for purchases above RM250, moved from RM1,500 to RM2,500. Each contactless transaction still cannot exceed RM2,500. Above the daily limit you need the physical card, chip and PIN. The notice says no action is required.","changes":[{"label":"Daily contactless limit","before":"RM1,500","after":"RM2,500"}],"sourceLabel":"HSBC / HSBC Amanah contactless notice","sourceUrl":"https://www.hsbcamanah.com.my/content/dam/hsbc/hbms/documents/updates-to-daily-contactless-limit-for-hsbc-credit-cards.pdf","sourceKind":"bank"},{"id":"affin-cashback","bankId":"affin","title":"DUO+ cashback capped at RM250 a tap, and rounding is cut off","published":"2026-01-09","effective":"2026-01-30","kind":"benefits","severity":"action","scope":"held","cardIds":["affin-duo","affin-duo-plus"],"summary":"Posted 9 January 2026 and in force 21 days later. DUO+ Visa cashback is for contactless retail of RM250 and below. Affin can withhold or reverse cashback if you split a bill at the same merchant to stay under that cap. Cashback is calculated per transaction to two decimal places with no rounding — the notice uses Affin DUO Visa as the illustration, so both DUO and DUO+ are in the generic terms. Cards other than Business Platinum are personal use only.","changes":[{"label":"DUO+ Visa cashback","before":"Not spelled out this way","after":"Contactless retail of RM250 and below. Split bills can be reversed"},{"label":"Rounding","before":"Not spelled out","after":"Two decimals, no round up or down. RM600.70 at 3% credits RM18.02"}],"sourceLabel":"Affin announcement, 9 January 2026","sourceUrl":"https://www.affinalways.com/en/announcements/ANNOUNCEMENT%20ON%20ADDITIONAL%20CLAUSES%20FOR%20GENERIC%20AFFIN%20CREDIT%20CARDS%20TERMS%20AND%20CONDITIONS","sourceKind":"bank"},{"id":"affin-miles","bankId":"affin","title":"DUO and DUO+ airmiles conversion worsened on 1 April 2025","published":null,"effective":"2025-04-01","kind":"points","severity":"action","scope":"held","cardIds":["affin-duo","affin-duo-plus"],"summary":"Affin’s FAQ groups DUO and DUO+ with Avance, MPN and several other cards. For that group the rate from 1 April 2025 is 20,000 Affin Rewards Points for 1,000 Enrich, 1,000 AirAsia, or 10 Batik Air points. The FAQ lists the earlier Enrich rate for the group as 14,000 points, and 12,000 points for 1,000 AirAsia or 10 Batik Air points. Invikta and World cards are separate rows. Open the FAQ before you transfer.","changes":[{"label":"Enrich, DUO and DUO+ group","before":"14,000 points = 1,000 Enrich","after":"20,000 points = 1,000 Enrich"},{"label":"AirAsia / Batik, same group","before":"12,000 points = 1,000 AirAsia, or 10 Batik Air points","after":"20,000 points for the same"}],"sourceLabel":"Affin Rewards FAQ, effective 1 April 2025","sourceUrl":"https://www.affinalways.com/storage/FAQs/Final-FAQ-Revision-of-Airmiles-Points-Conversion-Rate-in-the-AFFIN-Rewards-Programme-ENG.pdf","sourceKind":"bank"},{"id":"ocbc-rewards","bankId":"ocbc","title":"Titanium Blue left cashback and moved to OCBC$","published":"2024-09-25","effective":"2024-10-20","kind":"points","severity":"watch","scope":"held","cardIds":["ocbc-ti-blue"],"summary":"Notice dated 25 September 2024, in force 20 October 2024, for Titanium Mastercard Blue and Pink. The old online cashback bands (including 7% on a thin slice of e-wallet spend) were replaced by OCBC$. The live product page adds a 20,000 OCBC$ cap per statement cycle on the accelerated rate, then unlimited 1x, and a five-year expiry.","changes":[{"label":"Online & e-wallet, up to RM1,000","before":"0.07% cashback","after":"12x OCBC$ on Double Date and Pay Day; 6x on other days"},{"label":"Online & e-wallet, RM1,000–1,500","before":"7% cashback, cap RM20 a month","after":"Same OCBC$ rates, then 1x after the cycle cap"},{"label":"Other retail","before":"0.1% cashback","after":"1x OCBC$, unlimited"},{"label":"Principal annual fee","before":"In the old feature set","after":"RM75. First year waived through 31 December 2026 on the product page; later years need RM20,000"}],"sourceLabel":"OCBC Titanium revision notice, 25 September 2024","sourceUrl":"https://www.ocbc.com.my/iwov-resources/my/ocbc/personal/pdf/cards/general/Revision_Titanium_Mastercard.pdf","sourceKind":"bank"},{"id":"ocbc-contactless","bankId":"ocbc","title":"OCBC daily contactless limit is RM3,000","published":"2026-07-08","effective":"2026-08-03","kind":"product","severity":"fyi","scope":"bank","cardIds":["ocbc-ti-blue"],"summary":"Notice dated 8 July 2026. From 3 August 2026 every OCBC credit card, including Titanium Blue, has a daily cumulative contactless limit of RM3,000, up from RM1,000. A single contactless charge without PIN is still capped at RM250. You can set the daily limit from RM1,000 to RM5,000 via the contact centre or a branch. A PIN transaction refreshes the cumulative limit.","changes":[{"label":"Daily cumulative contactless","before":"RM1,000","after":"RM3,000 default. Choosable from RM1,000 to RM5,000"},{"label":"Single tap without PIN","before":"RM250","after":"RM250, unchanged"}],"sourceLabel":"OCBC notice, 8 July 2026","sourceUrl":"https://www.ocbc.com.my/iwov-resources/my/ocbc/personal/pdf/notices/Announcement-for-Contactless-Cumulative-Limit-Credit-Card.pdf","sourceKind":"bank"},{"id":"mb-2-refund","bankId":"maybank","title":"Maybank 2 Gold can claw back cashback and TreatsPoints on a refund","published":"2026-01-06","effective":"2026-01-06","kind":"terms","severity":"watch","scope":"held","cardIds":["mb-2-gold"],"summary":"RinggitPlus reported that Maybank revised the 2 Gold and 2 Platinum terms from 6 January 2026. Earn rates did not change. The new wording says cashback and TreatsPoints on a refunded or reversed purchase can be taken back, in full or in part, even if the reward had not posted yet, and even if the reversal comes much later. This item is a press report. Confirm it against Maybank’s own terms before you rely on it.","changes":[{"label":"Earn rate","before":"Unchanged","after":"Unchanged"},{"label":"Refunds and reversals","before":"Narrower clawback wording","after":"Rewards may be reversed on a full or partial refund, whenever it posts"}],"sourceLabel":"RinggitPlus, 14 January 2026 — confirm on Maybank","sourceUrl":"https://ringgitplus.com/en/blog/credit-card-news/maybank-2-cards-update-cashback-and-treatspoints-terms.html","sourceKind":"press"},{"id":"mb-ikhwan-miles","bankId":"maybank","title":"Ikhwan American Express miles rate in force since 22 May 2024","published":null,"effective":"2024-05-22","kind":"points","severity":"fyi","scope":"held","cardIds":["mb-ikhwan-amex"],"summary":"The Maybank Islamic Ikhwan Gold page still prints this notice: from 22 May 2024, Maybank American Express, Mastercard, and Visa Gold & Platinum convert at 20,000 TreatsPoints = 1,000 Enrich, KrisFlyer or Asia Miles, up from 14,000. It is an old change, and it is the rate the product page is still showing. Visa Infinite is a different table and is not this card.","changes":[{"label":"Air miles, Gold & Platinum including American Express","before":"14,000 TreatsPoints = 1,000 miles","after":"20,000 TreatsPoints = 1,000 miles"}],"sourceLabel":"Maybank Islamic Ikhwan Gold page","sourceUrl":"https://www.maybank2u.com.my/maybank2u/malaysia/en/personal/cards/credit/islamic_mastercard_ikhwan_gold_card.page","sourceKind":"bank"},{"id":"hlb-tnc","bankId":"hlb","title":"Hong Leong credit-card terms revised from 14 May 2026","published":"2026-04-23","effective":"2026-05-14","kind":"terms","severity":"watch","scope":"bank","cardIds":["hlb-vi"],"summary":"Notice dated 23 April 2026. Revised terms for Infinite P, Infinite, Infinite Doctor’s Edition and several other Hong Leong cards took effect on 14 May 2026. The news post links the new documents and does not itself spell a new earn rate — the May 2025 Enrich table is the rate change. Read the Infinite terms if a privilege you use is contractual.","changes":[],"sourceLabel":"Hong Leong news, 23 April 2026","sourceUrl":"https://www.hlb.com.my/en/personal-banking/news-updates/hlb-revision-of-terms-and-conditions-for-hlb-credit-cards.html","sourceKind":"bank"},{"id":"amb-tnc","bankId":"ambank","title":"AmBank cardholder agreements revised from 30 September 2025","published":"2025-09-08","effective":"2025-09-30","kind":"terms","severity":"watch","scope":"bank","cardIds":["amb-vi","amb-vi-i"],"summary":"Notice dated 8 September 2025. The conventional and Islamic cardholder agreements, plus a long list of programme terms, took effect on 30 September 2025. The introduction does not itself publish a new miles rate — that is the April 2026 Enrich notice. This one is the contract refresh underneath both Visa Infinite cards.","changes":[],"sourceLabel":"AmBank announcement, 8 September 2025","sourceUrl":"https://www.ambank.com.my/announcements/2025/revision-of-the-ambank-ambank-islamic-credit-card--i-terms-and-conditions-(september-2025)","sourceKind":"bank"},{"id":"ab-features","bankId":"alliance","title":"August 2025 features revision left Platinum Virtual alone","published":"2025-07-11","effective":"2025-08-01","kind":"benefits","severity":"fyi","scope":"held","cardIds":["ab-virtual"],"summary":"From 1 August 2025 Alliance rewrote Timeless Bonus Points and some annual fees on Visa Platinum and Visa Infinite. In the same notice Alliance said there are no changes to the features of the Visa Platinum Virtual Credit Card. If your virtual Visa is that product, this revision is a non-event. If it is a different virtual card, read the Infinite and Platinum tables before assuming you were spared.","changes":[{"label":"Visa Platinum Virtual features","before":"Unchanged, per Alliance","after":"Unchanged"}],"sourceLabel":"Alliance media centre, 11 July 2025","sourceUrl":"https://www.alliancebank.com.my/about-us/Media-Centre/Revision-to-Alliance-Bank-Credit-Card-Product-Features-and-Fees-Charges","sourceKind":"bank"},{"id":"ab-points-expiry","bankId":"alliance","title":"Alliance bonus points now expire after three years","published":"2025-11-10","effective":"2025-12-01","kind":"points","severity":"action","scope":"bank","cardIds":["ab-virtual"],"summary":"Notice dated 10 November 2025, in force 1 December 2025. Timeless Bonus Points were renamed Three-year Bonus Points. The abbreviation stays TBP. Points no longer last forever: anything earned before 1 December 2025 expires on 30 November 2028, and points earned after that last until the end of the third year from the month they were earned. Enrich and AirAsia redemptions must be in blocks of 5,000 miles (75,000 TBP for 5,000 Enrich, 30,000 TBP for 5,000 AirAsia). The August 2025 features notice left Visa Platinum Virtual earn rates alone. This later notice is about the points balance itself. If your virtual Visa earns TBP, the expiry applies.","changes":[{"label":"Name","before":"Timeless Bonus Points","after":"Three-year Bonus Points (still TBP)"},{"label":"Expiry","before":"None","after":"Three years. Pre-December 2025 points expire 30 November 2028"},{"label":"Air miles blocks","before":"Smaller conversions were published","after":"Multiples of 5,000 Enrich or AirAsia points only"}],"sourceLabel":"Alliance media centre, 10 November 2025","sourceUrl":"https://www.alliancebank.com.my/about-us/Media-Centre/Revision-to-Alliance-Bank-Bonus-Points-and-Air-Miles-Redemption","sourceKind":"bank"},{"id":"ab-agreement","bankId":"alliance","title":"Visa and Mastercard cardholder agreement revised","published":"2025-12-01","effective":"2025-12-01","kind":"terms","severity":"watch","scope":"bank","cardIds":["ab-virtual"],"summary":"From 1 December 2025 the Alliance Bank Visa/Mastercard Credit Cardholder Agreement was revised under the Fair Treatment of Financial Consumers policy. It applies to Visa and Mastercard cardholders, which includes a virtual Visa. The notice points at the PDF rather than listing fee or points changes.","changes":[],"sourceLabel":"Alliance media centre, 1 December 2025","sourceUrl":"https://www.alliancebank.com.my/about-us/Media-Centre/revision-of-alliance-bank-credit-cardholder-agreement","sourceKind":"bank"},{"id":"cimb-preferred","bankId":"cimb","title":"Preferred Visa Infinite bonus thresholds rose — not your PETRONAS card","published":null,"effective":"2026-06-01","kind":"points","severity":"fyi","scope":"other","cardIds":[],"summary":"From 1 June 2026 the CIMB Preferred Visa Infinite extra-bonus campaign counts supplementary spend, and the monthly thresholds moved up: 25,000 bonus points from RM8,000 to RM10,000, and 35,000 bonus points from RM10,000 to RM12,000. You do not hold Preferred Visa Infinite. It is here so a CIMB points headline does not get mistaken for PETRONAS, Travel or the e Credit Card.","changes":[{"label":"Tier for 25,000 bonus points","before":"RM8,000","after":"RM10,000"},{"label":"Tier for 35,000 bonus points","before":"RM10,000","after":"RM12,000"}],"sourceLabel":"CIMB Preferred Visa Infinite notice","sourceUrl":"https://www.cimb.com.my/en/personal/important-notices/2026/notice-of-amendments-to-cimb-preferred-visa-infinite-extra-bonuspoints-campaign-tnc.html","sourceKind":"bank"}]},"spotted":[{"id":"spot-hsbc-card-eff-1-june-2023-pdf","bankId":"hsbc","title":"Customer Notice - Amendments to the Terms & Conditions for HSBC Amanah Premier World Mastercard Credit Card effective 1 June 2023 (PDF)","published":null,"effective":null,"kind":"terms","severity":"watch","scope":"bank","cardIds":["hsbc-mpower"],"summary":"Spotted on HSBC Amanah important notices on 2026-10-05. The weekly check only captured the title and link. Open the source before you rely on it.","changes":[],"sourceLabel":"HSBC Amanah important notices","sourceUrl":"https://www.hsbcamanah.com.my/content/dam/hsbc/hbms/documents/notice-of-amendments-to%20the-terms-conditions-for-hsbc-amanah-premier-world-mastercard%C2%AE-credit-card-eff-1-june-2023.pdf","sourceKind":"bank","spotted":"2026-10-05"},{"id":"spot-hsbc-e-to-customer-amanah-pdf","bankId":"hsbc","title":"Customer Notice - Revised Authentication Method for Telebanking PIN Creation & Reset, Voice ID Enrolment and Card-i Activation & Card-i PIN Creation (Effective 11 Aug 2024)","published":null,"effective":null,"kind":"product","severity":"watch","scope":"bank","cardIds":["hsbc-mpower"],"summary":"Spotted on HSBC Amanah important notices on 2026-10-05. The weekly check only captured the title and link. Open the source before you rely on it.","changes":[],"sourceLabel":"HSBC Amanah important notices","sourceUrl":"https://www.hsbcamanah.com.my/content/dam/hsbc/hbms/documents/important-notice/notice-to-customer-amanah.pdf","sourceKind":"bank","spotted":"2026-10-05"},{"id":"spot-hsbc-cardholder-agreement-pdf","bankId":"hsbc","title":"Customer Notice - Revision of HSBC Amanah Malaysia Berhad Universal Terms & Conditions and Cardholder Agreement","published":null,"effective":null,"kind":"terms","severity":"watch","scope":"bank","cardIds":["hsbc-mpower"],"summary":"Spotted on HSBC Amanah important notices on 2026-10-05. The weekly check only captured the title and link. Open the source before you rely on it.","changes":[],"sourceLabel":"HSBC Amanah important notices","sourceUrl":"https://www.hsbcamanah.com.my/content/dam/hsbc/hbms/documents/customer-notice-revision-of-hsbc-amanah-malaysia-berhad-universal-terms-and-conditions-and-cardholder-agreement.pdf","sourceKind":"bank","spotted":"2026-10-05"},{"id":"spot-hsbc-fective-24-june-2025-pdf","bankId":"hsbc","title":"Customer Notice - Revision of Card Verification Method for Provisioning of HSBC Credit Card-i to Mobile Wallets Effective 24 June 2025 (PDF)","published":null,"effective":null,"kind":"product","severity":"watch","scope":"bank","cardIds":["hsbc-mpower"],"summary":"Spotted on HSBC Amanah important notices on 2026-10-05. The weekly check only captured the title and link. Open the source before you rely on it.","changes":[],"sourceLabel":"HSBC Amanah important notices","sourceUrl":"https://www.hsbcamanah.com.my/content/dam/hsbc/hbms/documents/help/important-information/customer-notice-revision-of-card-verification-method-for-provisioning-of-hsbc-credit-card-i-to-mobile-wallets-effective-24-june-2025.pdf","sourceKind":"bank","spotted":"2026-10-05"},{"id":"spot-hsbc--verification-method-pdf","bankId":"hsbc","title":"Revision of Card Verification Method for Provisioning of HSBC Supplementary Credit Card/-i to Mobile Wallets effective 16 February 2026 (PDF)","published":null,"effective":null,"kind":"product","severity":"watch","scope":"bank","cardIds":["hsbc-mpower"],"summary":"Spotted on HSBC Amanah important notices on 2026-10-05. The weekly check only captured the title and link. Open the source before you rely on it.","changes":[],"sourceLabel":"HSBC Amanah important notices","sourceUrl":"https://www.hsbcamanah.com.my/content/dam/hsbc/hbms/documents/revision-of-card-verification-method.pdf","sourceKind":"bank","spotted":"2026-10-05"}],"checks":{"checkedOn":"2026-10-05","added":0,"banks":[{"bankId":"maybank","checkedOn":"2026-10-05","ok":false,"status":403,"links":0,"added":0,"error":""},{"bankId":"cimb","checkedOn":"2026-10-05","ok":true,"status":200,"links":139,"added":0,"error":""},{"bankId":"hlb","checkedOn":"2026-10-05","ok":true,"status":200,"links":21,"added":0,"error":""},{"bankId":"ocbc","checkedOn":"2026-10-05","ok":false,"status":404,"links":10,"added":0,"error":""},{"bankId":"ambank","checkedOn":"2026-10-05","ok":true,"status":200,"links":101,"added":0,"error":""},{"bankId":"hsbc","checkedOn":"2026-10-05","ok":true,"status":200,"links":449,"added":0,"error":""},{"bankId":"alliance","checkedOn":"2026-10-05","ok":true,"status":200,"links":31,"added":0,"error":""},{"bankId":"affin","checkedOn":"2026-10-05","ok":true,"status":200,"links":0,"added":0,"error":""},{"bankId":"aeon","checkedOn":"2026-10-05","ok":true,"status":200,"links":66,"added":0,"error":""},{"bankId":"public","checkedOn":"2026-10-05","ok":true,"status":200,"links":105,"added":0,"error":""},{"bankId":"rhb","checkedOn":"2026-10-05","ok":true,"status":200,"links":943,"added":0,"error":""},{"bankId":"uob","checkedOn":"2026-10-05","ok":true,"status":200,"links":120,"added":0,"error":""},{"bankId":"sc","checkedOn":"2026-10-05","ok":true,"status":200,"links":422,"added":0,"error":""},{"bankId":"hsbc-my","checkedOn":"2026-10-05","ok":true,"status":200,"links":485,"added":0,"error":""},{"bankId":"bankislam","checkedOn":"2026-10-05","ok":false,"status":403,"links":0,"added":0,"error":""},{"bankId":"muamalat","checkedOn":"2026-10-05","ok":true,"status":200,"links":301,"added":0,"error":""},{"bankId":"bankrakyat","checkedOn":"2026-10-05","ok":false,"status":403,"links":0,"added":0,"error":""},{"bankId":"bsn","checkedOn":"2026-10-05","ok":true,"status":200,"links":26,"added":0,"error":""},{"bankId":"icbc","checkedOn":"2026-10-05","ok":true,"status":200,"links":14,"added":0,"error":""}]}}</script>
   <script>
-    const q = document.getElementById("q");
-    const buttons = [...document.querySelectorAll("button[data-kind]")];
-    let kind = "all";
-    function apply() {
-      const needle = q.value.trim().toLowerCase();
-      for (const card of document.querySelectorAll("article.card[data-kind]")) {
-        const kindOk = kind === "all" || card.dataset.kind === kind;
-        const textOk = !needle || (card.dataset.title || "").includes(needle) || card.textContent.toLowerCase().includes(needle);
-        card.classList.toggle("hidden", !(kindOk && textOk));
-      }
+const data = JSON.parse(document.getElementById("rak-data").textContent);
+const library = data.library;
+const spotted = data.spotted || [];
+const checks = data.checks || {};
+const kindLabel = library.kindLabel;
+const kinds = ["all", ...Object.keys(kindLabel)];
+const banks = library.banks;
+const bankById = Object.fromEntries(banks.map((bank) => [bank.id, bank]));
+const checkByBank = Object.fromEntries((checks.banks || []).map((row) => [row.bankId, row]));
+const KEY = "rak-pages-desk";
+
+function loadState() {
+  const base = {
+    view: "feed",
+    openId: null,
+    mineOnly: true,
+    kind: "all",
+    query: "",
+    read: {},
+    pinned: {},
+    watching: {},
+    checked: {},
+    filed: [],
+    addedCards: [],
+    removed: {},
+  };
+  try {
+    return Object.assign(base, JSON.parse(localStorage.getItem(KEY) || "{}"));
+  } catch {
+    return base;
+  }
+}
+
+let state = loadState();
+
+function save() {
+  localStorage.setItem(
+    KEY,
+    JSON.stringify({
+      read: state.read,
+      pinned: state.pinned,
+      watching: state.watching,
+      checked: state.checked,
+      filed: state.filed,
+      addedCards: state.addedCards,
+      removed: state.removed,
+      mineOnly: state.mineOnly,
+    }),
+  );
+}
+
+function todayIso(date = new Date()) {
+  const pad = (value) => String(value).padStart(2, "0");
+  return date.getFullYear() + "-" + pad(date.getMonth() + 1) + "-" + pad(date.getDate());
+}
+
+function parseDay(iso) {
+  const parts = iso.split("-").map(Number);
+  return Date.UTC(parts[0], (parts[1] || 1) - 1, parts[2] || 1);
+}
+
+function daysFromToday(iso) {
+  return Math.round((parseDay(iso) - parseDay(todayIso())) / 86400000);
+}
+
+function pretty(iso) {
+  if (!iso) return "";
+  const parts = iso.split("-").map(Number);
+  return new Date(Date.UTC(parts[0], parts[1] - 1, parts[2])).toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}
+
+function esc(value) {
+  const named = { "&": "amp", "<": "lt", ">": "gt", '"': "quot" };
+  return String(value ?? "").replace(/[&<>"]/g, (ch) => "&" + named[ch] + ";");
+}
+
+function walletCards() {
+  return [...library.cards, ...(state.addedCards || [])].filter((card) => !state.removed?.[card.id]);
+}
+
+function isWatching(id) {
+  return state.watching[id] !== false;
+}
+
+function filedToNotice(item) {
+  return {
+    id: item.id,
+    bankId: item.bankId,
+    title: item.title,
+    published: item.published,
+    effective: item.effective,
+    kind: item.kind,
+    severity: "watch",
+    scope: "held",
+    cardIds: item.cardIds || [],
+    summary: item.summary,
+    changes: [],
+    sourceLabel: "Filed by you",
+    sourceUrl: item.sourceUrl || "",
+    sourceKind: "bank",
+    yours: true,
+  };
+}
+
+function allNotices() {
+  return [...(state.filed || []).map(filedToNotice), ...spotted.map((item) => ({ ...item, fromPage: true })), ...library.notices];
+}
+
+function noticeHits(notice, mineOnly) {
+  if (!mineOnly) return true;
+  if (notice.scope === "other") return false;
+  const held = new Set(walletCards().map((card) => card.id));
+  const ids = (notice.cardIds?.length ? notice.cardIds : walletCards().filter((card) => card.bankId === notice.bankId).map((card) => card.id)).filter((id) => held.has(id));
+  return ids.some((id) => isWatching(id));
+}
+
+function cardName(id) {
+  return walletCards().find((card) => card.id === id)?.name || library.cards.find((card) => card.id === id)?.name || "";
+}
+
+function visibleNotices() {
+  const needle = state.query.trim().toLowerCase();
+  return allNotices()
+    .filter((notice) => noticeHits(notice, state.mineOnly))
+    .filter((notice) => state.kind === "all" || notice.kind === state.kind)
+    .filter((notice) => {
+      if (!needle) return true;
+      const bank = bankById[notice.bankId];
+      const names = (notice.cardIds || []).map(cardName).join(" ");
+      const blob = [notice.title, notice.summary, bank?.name, names, (notice.changes || []).map((row) => row.label).join(" ")].join(" ").toLowerCase();
+      return blob.includes(needle);
+    })
+    .sort((a, b) => {
+      const pin = Number(Boolean(state.pinned[b.id])) - Number(Boolean(state.pinned[a.id]));
+      if (pin) return pin;
+      const unread = Number(!state.read[a.id]) - Number(!state.read[b.id]);
+      if (unread) return unread;
+      const aDays = a.effective ? daysFromToday(a.effective) : -9999;
+      const bDays = b.effective ? daysFromToday(b.effective) : -9999;
+      const aSoon = aDays >= 0 ? aDays : 9999;
+      const bSoon = bDays >= 0 ? bDays : 9999;
+      if (aSoon !== bSoon) return aSoon - bSoon;
+      return (b.published || b.effective || "1970-01-01").localeCompare(a.published || a.effective || "1970-01-01");
+    });
+}
+
+function timing(effective) {
+  const days = daysFromToday(effective);
+  if (days > 1) return "Takes effect " + pretty(effective) + " · in " + days + " days";
+  if (days === 1) return "Takes effect tomorrow, " + pretty(effective);
+  if (days === 0) return "Takes effect today, " + pretty(effective);
+  return "In force since " + pretty(effective);
+}
+
+function whenLine(notice) {
+  if (notice.effective) return timing(notice.effective);
+  if (notice.published) return "Dated " + pretty(notice.published);
+  if (typeof notice.spotted === "string") return "Spotted " + pretty(notice.spotted);
+  return "";
+}
+
+function severityLabel(severity) {
+  if (severity === "action") return "Read this";
+  if (severity === "watch") return "Check";
+  return "For the file";
+}
+
+function staleBanks() {
+  return banks.filter((bank) => {
+    const day = state.checked[bank.id];
+    if (!day) return true;
+    return daysFromToday(day) < -21;
+  });
+}
+
+function openCount() {
+  return allNotices().filter((notice) => noticeHits(notice, state.mineOnly) && !state.read[notice.id]).length;
+}
+
+function rowHtml(notice) {
+  const bank = bankById[notice.bankId];
+  const open = state.openId === notice.id;
+  return (
+    '<button type="button" class="card link" data-act="open" data-id="' +
+    esc(notice.id) +
+    '"><p class="meta"><span class="dot' +
+    (state.read[notice.id] ? " off" : "") +
+    '"></span>' +
+    esc(bank?.short || notice.bankId) +
+    " · " +
+    esc(kindLabel[notice.kind] || notice.kind) +
+    (state.pinned[notice.id] ? " · Pinned" : "") +
+    (notice.yours ? " · Yours" : "") +
+    (notice.fromPage ? " · New on the page" : "") +
+    (notice.sourceKind === "press" ? " · Press" : "") +
+    "</p><h2>" +
+    esc(notice.title) +
+    '</h2><p class="when">' +
+    esc(whenLine(notice)) +
+    "</p></button>" +
+    (open ? detailHtml(notice) : "")
+  );
+}
+
+function detailHtml(notice) {
+  const bank = bankById[notice.bankId];
+  const held = new Set(walletCards().map((card) => card.id));
+  const names = (notice.cardIds?.length ? notice.cardIds : walletCards().filter((card) => card.bankId === notice.bankId).map((card) => card.id))
+    .map(cardName)
+    .filter(Boolean);
+  const changes = (notice.changes || [])
+    .map(
+      (row) =>
+        '<div class="change"><dt>' +
+        esc(row.label) +
+        '</dt><dd class="muted">Before: ' +
+        esc(row.before) +
+        "</dd><dd>Now: " +
+        esc(row.after) +
+        "</dd></div>",
+    )
+    .join("");
+  return (
+    '<article class="card detail"><p class="stamp-text">' +
+    esc(severityLabel(notice.severity)) +
+    "</p><p class=\"muted\">" +
+    esc(bank?.name || "") +
+    (notice.published ? " · notice " + esc(pretty(notice.published)) : "") +
+    (notice.effective ? " · " + esc(timing(notice.effective)) : "") +
+    "</p><p>" +
+    esc(notice.summary) +
+    "</p>" +
+    (changes ? "<dl>" + changes + "</dl>" : "") +
+    '<p class="muted">Touches: ' +
+    esc(names.join(", ") || bank?.short || "") +
+    (notice.cardIds?.some((id) => !held.has(id)) ? "" : "") +
+    "</p>" +
+    (notice.sourceUrl
+      ? '<p><a class="go" href="' + esc(notice.sourceUrl) + '" rel="noreferrer">' + esc(notice.sourceLabel || "Source") + "</a></p>"
+      : "") +
+    '<div class="bar">' +
+    '<button type="button" data-act="pin" data-id="' +
+    esc(notice.id) +
+    '">' +
+    (state.pinned[notice.id] ? "Unpin" : "Pin") +
+    "</button>" +
+    '<button type="button" data-act="unread" data-id="' +
+    esc(notice.id) +
+    '">' +
+    (state.read[notice.id] ? "Mark unread" : "Mark read") +
+    "</button>" +
+    (notice.yours ? '<button type="button" class="danger" data-act="delete-filed" data-id="' + esc(notice.id) + '">Delete filing</button>' : "") +
+    "</div>" +
+    (notice.sourceKind === "press" ? '<p class="muted">Press report. If it disagrees with the bank page, the bank page wins.</p>' : "") +
+    "</article>"
+  );
+}
+
+function feedHtml() {
+  const list = visibleNotices();
+  const upcoming = list.filter((notice) => notice.effective && daysFromToday(notice.effective) >= 0);
+  const unread = list.filter((notice) => !state.read[notice.id] && !upcoming.includes(notice));
+  const rest = list.filter((notice) => state.read[notice.id] && !upcoming.includes(notice));
+  const chips = kinds
+    .map(
+      (kind) =>
+        '<button type="button" data-act="kind" data-kind="' +
+        kind +
+        '" class="' +
+        (state.kind === kind ? "on" : "") +
+        '">' +
+        esc(kind === "all" ? "All" : kindLabel[kind]) +
+        "</button>",
+    )
+    .join("");
+  function block(title, items, empty) {
+    return "<section><h2>" + title + "</h2>" + (items.length ? items.map(rowHtml).join("") : '<p class="card muted">' + empty + "</p>") + "</section>";
+  }
+  return (
+    '<div class="bar">' +
+    '<input id="q" type="search" placeholder="Search bank, card, or change" aria-label="Search notices" value="' +
+    esc(state.query) +
+    '" />' +
+    '<button type="button" data-act="mine" class="' +
+    (state.mineOnly ? "on" : "") +
+    '">' +
+    (state.mineOnly ? "My cards" : "Whole banks") +
+    "</button></div>" +
+    '<div class="bar" role="tablist">' +
+    chips +
+    '<button type="button" data-act="mark-visible">Mark these read</button></div>' +
+    '<div id="list">' +
+    block("Still ahead", upcoming, "Nothing dated after today for this filter.") +
+    block("Unread", unread, "No unread notices in this filter.") +
+    block("Already read", rest, "Nothing read yet in this filter.") +
+    "</div>"
+  );
+}
+
+function banksHtml() {
+  return (
+    "<section><h2>Official pages</h2><p class=\"muted\">The feed is a snapshot. The next revision lands on these pages, or in email, before it lands here. Mark a page when you have actually opened it. The Monday job still checks every issuer.</p>" +
+    banks
+      .map((bank) => {
+        const held = walletCards().filter((card) => card.bankId === bank.id && isWatching(card.id));
+        const open = allNotices().filter((notice) => notice.bankId === bank.id && noticeHits(notice, true) && !state.read[notice.id]).length;
+        const day = state.checked[bank.id];
+        const stale = !day || daysFromToday(day) < -21;
+        const row = checkByBank[bank.id];
+        const job = row
+          ? row.ok
+            ? "Monday check " + pretty(row.checkedOn) + " · " + row.links + " links, " + row.added + " new"
+            : "Monday check failed " + pretty(row.checkedOn) + (row.error ? " · " + row.error : row.status ? " · HTTP " + row.status : "")
+          : "Monday check has not recorded this issuer yet";
+        const looked = day ? "You looked on " + pretty(day) : "Not checked in Rak yet";
+        return (
+          '<article class="card"><div class="split"><div><h2>' +
+          esc(bank.short) +
+          '</h2><p class="muted">' +
+          esc(held.map((card) => card.name).join(" · ") || (walletCards().some((card) => card.bankId === bank.id) ? "No card watched" : "No card in your wallet. Watched for issuer notices.")) +
+          '</p></div><p class="' +
+          (open ? "stamp-text" : "muted") +
+          '">' +
+          open +
+          ' open</p></div><p class="' +
+          (stale ? "stamp-text" : "muted") +
+          '">' +
+          esc(looked) +
+          (stale ? " — due" : "") +
+          '</p><p class="muted">' +
+          esc(job) +
+          '</p><div class="bar"><a class="go" href="' +
+          esc(bank.hubUrl) +
+          '" rel="noreferrer">' +
+          esc(bank.hubLabel) +
+          '</a><button type="button" data-act="looked" data-id="' +
+          esc(bank.id) +
+          '">I looked today</button></div></article>'
+        );
+      })
+      .join("") +
+    "</section>"
+  );
+}
+
+function walletHtml() {
+  const removed = library.cards.filter((card) => state.removed?.[card.id]);
+  const groups = banks
+    .map((bank) => {
+      const cards = walletCards().filter((card) => card.bankId === bank.id);
+      const body = cards.length
+        ? cards
+            .map((card) => {
+              const on = isWatching(card.id);
+              const yours = String(card.id).startsWith("added-");
+              return (
+                '<article class="card"><div class="split"><div><h2>' +
+                esc(card.name) +
+                '</h2><p class="muted">' +
+                esc(card.network) +
+                (yours ? " · Yours" : "") +
+                '</p></div><button type="button" data-act="watch" data-id="' +
+                esc(card.id) +
+                '" class="' +
+                (on ? "on" : "") +
+                '">' +
+                (on ? "Watching" : "Ignored") +
+                "</button></div><p class=\"muted\">" +
+                esc(card.note || "") +
+                '</p><button type="button" class="danger" data-act="remove-card" data-id="' +
+                esc(card.id) +
+                '">Remove card</button></article>'
+              );
+            })
+            .join("")
+        : '<p class="muted">No card in your wallet. This issuer is still watched.</p>';
+      return "<section><h2>" + esc(bank.short) + "</h2>" + body + "</section>";
+    })
+    .join("");
+  const gone = removed.length
+    ? "<section><h2>Removed</h2>" +
+      removed
+        .map(
+          (card) =>
+            '<article class="card"><div class="split"><div><h2>' +
+            esc(card.name) +
+            '</h2><p class="muted">' +
+            esc((bankById[card.bankId]?.short || "") + " · " + card.network) +
+            '</p></div><button type="button" data-act="restore" data-id="' +
+            esc(card.id) +
+            '">Put back</button></div></article>',
+        )
+        .join("") +
+      "</section>"
+    : "";
+  const options = banks.map((bank) => '<option value="' + esc(bank.id) + '">' + esc(bank.name) + "</option>").join("");
+  return (
+    "<section><h2>Wallet</h2><p class=\"muted\">Add a card you hold, ignore one, or remove it. A removed starter card can be put back. This stays in this browser.</p>" +
+    '<form id="add-card" class="card stack"><label>Bank<select name="bank">' +
+    options +
+    '</select></label><label>Card name<input name="name" placeholder="Visa Infinite" required /></label><div class="pair"><label>Network<input name="network" value="Visa" /></label><label>Note, optional<input name="note" placeholder="What you use it for" /></label></div><button type="submit" class="go">Add card</button></form></section>' +
+    groups +
+    gone
+  );
+}
+
+function fileHtml() {
+  const options = banks.map((bank) => '<option value="' + esc(bank.id) + '">' + esc(bank.name) + "</option>").join("");
+  const kindOptions = Object.keys(kindLabel)
+    .map((kind) => '<option value="' + kind + '">' + esc(kindLabel[kind]) + "</option>")
+    .join("");
+  return (
+    '<section><h2>File a notice</h2><p class="muted">Paste what the bank emailed you. It stays in this browser. It is not sent anywhere.</p>' +
+    '<form id="file-notice" class="card stack"><label>Bank<select name="bank" id="file-bank">' +
+    options +
+    '</select></label><fieldset><legend>Cards</legend><div id="file-cards" class="bar"></div><p class="muted">Leave them all off to file against every card you hold at this bank.</p></fieldset><label>Type<select name="kind">' +
+    kindOptions +
+    '</select></label><label>Title<input name="title" required /></label><label>What changed<textarea name="summary" rows="4" required></textarea></label><div class="pair"><label>Notice date<input type="date" name="published" /></label><label>Effective date<input type="date" name="effective" /></label></div><label>Link, if you have one<input name="sourceUrl" placeholder="https://" inputmode="url" /></label><p id="file-error" class="stamp-text" hidden></p><button type="submit" class="go">Add to the feed</button></form></section>'
+  );
+}
+
+function paintFileCards() {
+  const box = document.getElementById("file-cards");
+  const select = document.getElementById("file-bank");
+  if (!box || !select) return;
+  const cards = walletCards().filter((card) => card.bankId === select.value);
+  box.innerHTML = cards.length
+    ? cards
+        .map(
+          (card) =>
+            '<button type="button" data-act="file-card" data-id="' + esc(card.id) + '">' + esc(card.name) + "</button>",
+        )
+        .join("")
+    : '<p class="muted">No card in the wallet for this bank yet.</p>';
+}
+
+function render(partial) {
+  document.getElementById("open-count").textContent = openCount() + " open";
+  const stale = staleBanks().length;
+  const labels = [
+    ["feed", "Feed"],
+    ["banks", "Banks" + (stale ? " · " + stale : "")],
+    ["wallet", "Wallet"],
+    ["file", "File a notice"],
+  ];
+  const nav = labels
+    .map(
+      ([view, label]) =>
+        '<button type="button" data-act="view" data-view="' + view + '" class="' + (state.view === view ? "on" : "") + '">' + esc(label) + "</button>",
+    )
+    .join("");
+  document.getElementById("nav").innerHTML = nav;
+  document.getElementById("dock").innerHTML = labels
+    .map(
+      ([view, label]) =>
+        '<button type="button" data-act="view" data-view="' +
+        view +
+        '" class="' +
+        (state.view === view ? "on" : "") +
+        '">' +
+        esc(view === "file" ? "File" : label.split(" · ")[0]) +
+        "</button>",
+    )
+    .join("");
+  if (partial && state.view === "feed" && document.getElementById("list")) {
+    const list = visibleNotices();
+    const upcoming = list.filter((notice) => notice.effective && daysFromToday(notice.effective) >= 0);
+    const unread = list.filter((notice) => !state.read[notice.id] && !upcoming.includes(notice));
+    const rest = list.filter((notice) => state.read[notice.id] && !upcoming.includes(notice));
+    function block(title, items, empty) {
+      return "<section><h2>" + title + "</h2>" + (items.length ? items.map(rowHtml).join("") : '<p class="card muted">' + empty + "</p>") + "</section>";
     }
-    q.addEventListener("input", apply);
-    for (const button of buttons) {
-      button.addEventListener("click", () => {
-        kind = button.dataset.kind;
-        for (const other of buttons) other.classList.toggle("on", other === button);
-        apply();
-      });
+    document.getElementById("list").innerHTML =
+      block("Still ahead", upcoming, "Nothing dated after today for this filter.") +
+      block("Unread", unread, "No unread notices in this filter.") +
+      block("Already read", rest, "Nothing read yet in this filter.");
+    document.querySelectorAll("[data-act='kind']").forEach((button) => button.classList.toggle("on", button.dataset.kind === state.kind));
+    const mine = document.querySelector("[data-act='mine']");
+    if (mine) {
+      mine.classList.toggle("on", state.mineOnly);
+      mine.textContent = state.mineOnly ? "My cards" : "Whole banks";
     }
+    return;
+  }
+  const view = document.getElementById("view");
+  if (state.view === "banks") view.innerHTML = banksHtml();
+  else if (state.view === "wallet") view.innerHTML = walletHtml();
+  else if (state.view === "file") {
+    view.innerHTML = fileHtml();
+    paintFileCards();
+  } else view.innerHTML = feedHtml();
+}
+
+document.body.addEventListener("click", (event) => {
+  const el = event.target.closest("[data-act]");
+  if (!el) return;
+  const act = el.dataset.act;
+  const id = el.dataset.id;
+  if (act === "view") {
+    state.view = el.dataset.view;
+    state.openId = null;
+    render();
+    return;
+  }
+  if (act === "kind") {
+    state.kind = el.dataset.kind;
+    render(true);
+    return;
+  }
+  if (act === "mine") {
+    state.mineOnly = !state.mineOnly;
+    save();
+    render(true);
+    return;
+  }
+  if (act === "mark-visible") {
+    for (const notice of visibleNotices()) state.read[notice.id] = true;
+    save();
+    render(true);
+    return;
+  }
+  if (act === "open") {
+    state.openId = state.openId === id ? null : id;
+    if (state.openId) state.read[id] = true;
+    save();
+    render(true);
+    return;
+  }
+  if (act === "pin") {
+    if (state.pinned[id]) delete state.pinned[id];
+    else state.pinned[id] = true;
+    save();
+    render(true);
+    return;
+  }
+  if (act === "unread") {
+    if (state.read[id]) delete state.read[id];
+    else state.read[id] = true;
+    save();
+    render(true);
+    return;
+  }
+  if (act === "delete-filed") {
+    state.filed = state.filed.filter((item) => item.id !== id);
+    if (state.openId === id) state.openId = null;
+    save();
+    render();
+    return;
+  }
+  if (act === "looked") {
+    state.checked[id] = todayIso();
+    save();
+    render();
+    return;
+  }
+  if (act === "watch") {
+    state.watching[id] = state.watching[id] === false;
+    save();
+    render();
+    return;
+  }
+  if (act === "remove-card") {
+    if (String(id).startsWith("added-")) state.addedCards = (state.addedCards || []).filter((card) => card.id !== id);
+    else state.removed = Object.assign({}, state.removed, { [id]: true });
+    save();
+    render();
+    return;
+  }
+  if (act === "restore") {
+    const removed = Object.assign({}, state.removed);
+    delete removed[id];
+    state.removed = removed;
+    save();
+    render();
+    return;
+  }
+  if (act === "file-card") {
+    el.classList.toggle("on");
+  }
+});
+
+document.body.addEventListener("input", (event) => {
+  if (event.target.id === "q") {
+    state.query = event.target.value;
+    render(true);
+  }
+});
+
+document.body.addEventListener("change", (event) => {
+  if (event.target.id === "file-bank") paintFileCards();
+});
+
+document.body.addEventListener("submit", (event) => {
+  if (event.target.id === "add-card") {
+    event.preventDefault();
+    const form = new FormData(event.target);
+    const name = String(form.get("name") || "").trim();
+    if (name.length < 2) return;
+    state.addedCards = [
+      ...(state.addedCards || []),
+      {
+        id: "added-" + crypto.randomUUID(),
+        bankId: String(form.get("bank")),
+        name,
+        network: String(form.get("network") || "Card").trim() || "Card",
+        note: String(form.get("note") || "").trim() || "Added in this browser.",
+      },
+    ];
+    save();
+    render();
+    return;
+  }
+  if (event.target.id === "file-notice") {
+    event.preventDefault();
+    const form = new FormData(event.target);
+    const title = String(form.get("title") || "").trim();
+    const summary = String(form.get("summary") || "").trim();
+    const error = document.getElementById("file-error");
+    if (title.length < 4 || summary.length < 12) {
+      error.hidden = false;
+      error.textContent = "Add a title and a short note of what changed.";
+      return;
+    }
+    const bankId = String(form.get("bank"));
+    const picked = [...document.querySelectorAll("[data-act='file-card'].on")].map((button) => button.dataset.id);
+    const bankCards = walletCards().filter((card) => card.bankId === bankId);
+    const notice = {
+      id: "filed-" + crypto.randomUUID(),
+      bankId,
+      cardIds: picked.length ? picked : bankCards.map((card) => card.id),
+      title,
+      summary,
+      kind: String(form.get("kind") || "benefits"),
+      published: String(form.get("published") || "") || todayIso(),
+      effective: String(form.get("effective") || "") || null,
+      sourceUrl: String(form.get("sourceUrl") || "").trim(),
+    };
+    state.filed = [notice, ...(state.filed || [])];
+    state.view = "feed";
+    state.openId = notice.id;
+    state.read[notice.id] = true;
+    save();
+    render();
+  }
+});
+
+render();
+
   </script>
 </body>
 </html>
