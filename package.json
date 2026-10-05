@@ -1,0 +1,9 @@
+{
+  "name": "rak-card-circulars",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "refresh": "node scripts/refresh.mjs",
+    "build": "node scripts/build.mjs"
+  }
+}

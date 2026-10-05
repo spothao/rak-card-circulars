@@ -1,0 +1,87 @@
+{
+  "checkedOn": "2026-10-05",
+  "added": 0,
+  "banks": [
+    {
+      "bankId": "maybank",
+      "checkedOn": "2026-10-05",
+      "ok": false,
+      "status": 403,
+      "links": 0,
+      "added": 0,
+      "error": ""
+    },
+    {
+      "bankId": "cimb",
+      "checkedOn": "2026-10-05",
+      "ok": true,
+      "status": 200,
+      "links": 139,
+      "added": 0,
+      "error": ""
+    },
+    {
+      "bankId": "hlb",
+      "checkedOn": "2026-10-05",
+      "ok": true,
+      "status": 200,
+      "links": 21,
+      "added": 0,
+      "error": ""
+    },
+    {
+      "bankId": "ocbc",
+      "checkedOn": "2026-10-05",
+      "ok": false,
+      "status": 404,
+      "links": 10,
+      "added": 0,
+      "error": ""
+    },
+    {
+      "bankId": "ambank",
+      "checkedOn": "2026-10-05",
+      "ok": true,
+      "status": 200,
+      "links": 101,
+      "added": 0,
+      "error": ""
+    },
+    {
+      "bankId": "hsbc",
+      "checkedOn": "2026-10-05",
+      "ok": true,
+      "status": 200,
+      "links": 382,
+      "added": 0,
+      "error": ""
+    },
+    {
+      "bankId": "alliance",
+      "checkedOn": "2026-10-05",
+      "ok": true,
+      "status": 200,
+      "links": 31,
+      "added": 0,
+      "error": ""
+    },
+    {
+      "bankId": "affin",
+      "checkedOn": "2026-10-05",
+      "ok": true,
+      "status": 200,
+      "links": 0,
+      "added": 0,
+      "error": ""
+    },
+    {
+      "bankId": "aeon",
+      "checkedOn": "2026-10-05",
+      "ok": true,
+      "status": 200,
+      "links": 66,
+      "added": 0,
+      "error": ""
+    }
+  ]
+}

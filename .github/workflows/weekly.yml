@@ -1,0 +1,58 @@
+name: Weekly card circulars
+
+on:
+  schedule:
+    # Monday 01:00 UTC is 09:00 in Malaysia.
+    - cron: "0 1 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Refresh official pages
+        run: node scripts/refresh.mjs
+
+      - name: Build the Pages site
+        run: node scripts/build.mjs
+
+      - name: Commit newly spotted notices
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/spotted.json data/checks.json data/seen.json
+          if git diff --cached --quiet; then
+            echo "No data change."
+          else
+            git commit -m "Refresh bank pages"
+            git push
+          fi
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
