@@ -1,1 +1,97 @@
-[]
+[
+  {
+    "id": "spot-hsbc-card-eff-1-june-2023-pdf",
+    "bankId": "hsbc",
+    "title": "Customer Notice - Amendments to the Terms & Conditions for HSBC Amanah Premier World Mastercard Credit Card effective 1 June 2023 (PDF)",
+    "published": null,
+    "effective": null,
+    "kind": "terms",
+    "severity": "watch",
+    "scope": "bank",
+    "cardIds": [
+      "hsbc-mpower"
+    ],
+    "summary": "Spotted on HSBC Amanah important notices on 2026-10-05. The weekly check only captured the title and link. Open the source before you rely on it.",
+    "changes": [],
+    "sourceLabel": "HSBC Amanah important notices",
+    "sourceUrl": "https://www.hsbcamanah.com.my/content/dam/hsbc/hbms/documents/notice-of-amendments-to%20the-terms-conditions-for-hsbc-amanah-premier-world-mastercard%C2%AE-credit-card-eff-1-june-2023.pdf",
+    "sourceKind": "bank",
+    "spotted": "2026-10-05"
+  },
+  {
+    "id": "spot-hsbc-e-to-customer-amanah-pdf",
+    "bankId": "hsbc",
+    "title": "Customer Notice - Revised Authentication Method for Telebanking PIN Creation & Reset, Voice ID Enrolment and Card-i Activation & Card-i PIN Creation (Effective 11 Aug 2024)",
+    "published": null,
+    "effective": null,
+    "kind": "product",
+    "severity": "watch",
+    "scope": "bank",
+    "cardIds": [
+      "hsbc-mpower"
+    ],
+    "summary": "Spotted on HSBC Amanah important notices on 2026-10-05. The weekly check only captured the title and link. Open the source before you rely on it.",
+    "changes": [],
+    "sourceLabel": "HSBC Amanah important notices",
+    "sourceUrl": "https://www.hsbcamanah.com.my/content/dam/hsbc/hbms/documents/important-notice/notice-to-customer-amanah.pdf",
+    "sourceKind": "bank",
+    "spotted": "2026-10-05"
+  },
+  {
+    "id": "spot-hsbc-cardholder-agreement-pdf",
+    "bankId": "hsbc",
+    "title": "Customer Notice - Revision of HSBC Amanah Malaysia Berhad Universal Terms & Conditions and Cardholder Agreement",
+    "published": null,
+    "effective": null,
+    "kind": "terms",
+    "severity": "watch",
+    "scope": "bank",
+    "cardIds": [
+      "hsbc-mpower"
+    ],
+    "summary": "Spotted on HSBC Amanah important notices on 2026-10-05. The weekly check only captured the title and link. Open the source before you rely on it.",
+    "changes": [],
+    "sourceLabel": "HSBC Amanah important notices",
+    "sourceUrl": "https://www.hsbcamanah.com.my/content/dam/hsbc/hbms/documents/customer-notice-revision-of-hsbc-amanah-malaysia-berhad-universal-terms-and-conditions-and-cardholder-agreement.pdf",
+    "sourceKind": "bank",
+    "spotted": "2026-10-05"
+  },
+  {
+    "id": "spot-hsbc-fective-24-june-2025-pdf",
+    "bankId": "hsbc",
+    "title": "Customer Notice - Revision of Card Verification Method for Provisioning of HSBC Credit Card-i to Mobile Wallets Effective 24 June 2025 (PDF)",
+    "published": null,
+    "effective": null,
+    "kind": "product",
+    "severity": "watch",
+    "scope": "bank",
+    "cardIds": [
+      "hsbc-mpower"
+    ],
+    "summary": "Spotted on HSBC Amanah important notices on 2026-10-05. The weekly check only captured the title and link. Open the source before you rely on it.",
+    "changes": [],
+    "sourceLabel": "HSBC Amanah important notices",
+    "sourceUrl": "https://www.hsbcamanah.com.my/content/dam/hsbc/hbms/documents/help/important-information/customer-notice-revision-of-card-verification-method-for-provisioning-of-hsbc-credit-card-i-to-mobile-wallets-effective-24-june-2025.pdf",
+    "sourceKind": "bank",
+    "spotted": "2026-10-05"
+  },
+  {
+    "id": "spot-hsbc--verification-method-pdf",
+    "bankId": "hsbc",
+    "title": "Revision of Card Verification Method for Provisioning of HSBC Supplementary Credit Card/-i to Mobile Wallets effective 16 February 2026 (PDF)",
+    "published": null,
+    "effective": null,
+    "kind": "product",
+    "severity": "watch",
+    "scope": "bank",
+    "cardIds": [
+      "hsbc-mpower"
+    ],
+    "summary": "Spotted on HSBC Amanah important notices on 2026-10-05. The weekly check only captured the title and link. Open the source before you rely on it.",
+    "changes": [],
+    "sourceLabel": "HSBC Amanah important notices",
+    "sourceUrl": "https://www.hsbcamanah.com.my/content/dam/hsbc/hbms/documents/revision-of-card-verification-method.pdf",
+    "sourceKind": "bank",
+    "spotted": "2026-10-05"
+  }
+]

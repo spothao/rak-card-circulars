@@ -1,15 +1,15 @@
 {
   "checkedOn": "2026-10-05",
-  "added": 0,
+  "added": 5,
   "banks": [
     {
       "bankId": "maybank",
       "checkedOn": "2026-10-05",
       "ok": false,
-      "status": 403,
+      "status": 0,
       "links": 0,
       "added": 0,
-      "error": ""
+      "error": "AbortError"
     },
     {
       "bankId": "cimb",
@@ -52,8 +52,8 @@
       "checkedOn": "2026-10-05",
       "ok": true,
       "status": 200,
-      "links": 382,
-      "added": 0,
+      "links": 449,
+      "added": 5,
       "error": ""
     },
     {
