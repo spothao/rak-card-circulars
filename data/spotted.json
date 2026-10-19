@@ -1,5 +1,25 @@
 [
   {
+    "id": "spot-ambank-a-infinite-credit-card-i",
+    "bankId": "ambank",
+    "title": "9 October 2026 Revision of the AmBank SIGNATURE Priority Banking Visa Infinite Credit Card-i",
+    "published": null,
+    "effective": null,
+    "kind": "product",
+    "severity": "watch",
+    "scope": "bank",
+    "cardIds": [
+      "amb-vi",
+      "amb-vi-i"
+    ],
+    "summary": "Spotted on AmBank announcements on 2026-10-19. The weekly check only captured the title and link. Open the source before you rely on it.",
+    "changes": [],
+    "sourceLabel": "AmBank announcements",
+    "sourceUrl": "https://www.ambank.com.my/announcements/2026/revision-of-the-ambank-signature-priority-banking-visa-infinite-credit-card-i",
+    "sourceKind": "bank",
+    "spotted": "2026-10-19"
+  },
+  {
     "id": "spot-hsbc-card-eff-1-june-2023-pdf",
     "bankId": "hsbc",
     "title": "Customer Notice - Amendments to the Terms & Conditions for HSBC Amanah Premier World Mastercard Credit Card effective 1 June 2023 (PDF)",
